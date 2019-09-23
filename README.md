@@ -1,7 +1,7 @@
 # Lebonkoin
 Projet Lebonkoin pour Décembre 2019 (Web1)
 
-Ce projet est construit autour du framework Laravel en version 6.0 et Bootstrap en version 4.3.1 + chellenge React
+Ce projet est construit autour du framework Laravel en version 6.0 et Bootstrap en version 4.3.1 + challenge React
 
 / !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\
 Lien de la doc Laravel: https://laravel.com/docs/6.x
