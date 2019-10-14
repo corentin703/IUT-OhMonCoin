@@ -31196,7 +31196,7 @@ return jQuery;
      * @returns {string} Returns the deburred string.
      * @example
      *
-     * _.deburr('dÃ©jÃ  vu');
+     * _.deburr('déjà vu');
      * // => 'deja vu'
      */
     function deburr(string) {
@@ -36343,7 +36343,7 @@ var modifiers = {
    * Modifier used to prevent the popper from being positioned outside the boundary.
    *
    * A scenario exists where the reference itself is not within the boundaries.<br />
-   * We can say it has "escaped the boundaries" â€” or just "escaped".<br />
+   * We can say it has "escaped the boundaries" — or just "escaped".<br />
    * In this case we need to decide whether the popper should either:
    *
    * - detach from the reference and remain "trapped" in the boundaries, or
@@ -50559,7 +50559,7 @@ function readContext(context, observedBits) {
 //
 // Like fibers, update queues come in pairs: a current queue, which represents
 // the visible state of the screen, and a work-in-progress queue, which can be
-// mutated and processed asynchronously before it is committed â€” a form of
+// mutated and processed asynchronously before it is committed — a form of
 // double buffering. If a work-in-progress render is discarded before finishing,
 // we create a new work-in-progress by cloning the current queue.
 //
@@ -50753,7 +50753,7 @@ function enqueueUpdate(fiber, update) {
     appendUpdateToQueue(queue1, update);
   } else {
     // There are two queues. We need to append the update to both queues,
-    // while accounting for the persistent structure of the list â€” we don't
+    // while accounting for the persistent structure of the list — we don't
     // want the same update to be added multiple times.
     if (queue1.lastUpdate === null || queue2.lastUpdate === null) {
       // One of the queues is not empty. We must add the update to both queues.
@@ -52366,7 +52366,7 @@ function ChildReconciler(shouldTrackSideEffects) {
             break;
           }
 
-          warning$1(false, 'Encountered two children with the same key, `%s`. ' + 'Keys should be unique so that components maintain their identity ' + 'across updates. Non-unique keys may cause children to be ' + 'duplicated and/or omitted â€” the behavior is unsupported and ' + 'could change in a future version.', key);
+          warning$1(false, 'Encountered two children with the same key, `%s`. ' + 'Keys should be unique so that components maintain their identity ' + 'across updates. Non-unique keys may cause children to be ' + 'duplicated and/or omitted — the behavior is unsupported and ' + 'could change in a future version.', key);
           break;
 
         default:
@@ -56107,7 +56107,7 @@ function updateSuspenseComponent(current$$1, workInProgress, renderExpirationTim
   // uncontrolled form inputs). Instead we keep them mounted and hide them.
   // Both the fallback children AND the primary children are rendered at the
   // same time. Once the primary children are un-suspended, we can delete
-  // the fallback children â€” don't need to preserve their state.
+  // the fallback children — don't need to preserve their state.
   //
   // The two sets of children are siblings in the host environment, but
   // semantically, for purposes of reconciliation, they are two separate sets.
@@ -63240,7 +63240,7 @@ function finishPendingInteractions(root, committedExpirationTime) {
   } finally {
     // Clear completed interactions from the pending Map.
     // Unless the render was suspended or cascading work was scheduled,
-    // In which caseâ€“ leave pending interactions until the subsequent render.
+    // In which case– leave pending interactions until the subsequent render.
     var pendingInteractionMap = root.pendingInteractionMap;
     pendingInteractionMap.forEach(function (scheduledInteractions, scheduledExpirationTime) {
       // Only decrement the pending interaction count if we're done.
@@ -63653,7 +63653,7 @@ function createHostRootFiber(tag) {
 
   if (enableProfilerTimer && isDevToolsPresent) {
     // Always collect profile timings when DevTools are present.
-    // This enables DevTools to start capturing timing at any pointâ€“
+    // This enables DevTools to start capturing timing at any point–
     // Without some nodes in the tree having empty base times.
     mode |= ProfileMode;
   }
@@ -67620,7 +67620,7 @@ var DEFAULT_THREAD_ID = 0; // Counters used to generate unique IDs.
 
 var interactionIDCounter = 0;
 var threadIDCounter = 0; // Set of currently traced interactions.
-// Interactions "stack"â€“
+// Interactions "stack"–
 // Meaning that newly traced interactions are appended to the previously active set.
 // When an interaction goes out of scope, the previous set (if any) is restored.
 
@@ -67766,7 +67766,7 @@ function unstable_wrap(callback) {
     } finally {
       if (!hasRun) {
         // We only expect a wrapped function to be executed once,
-        // But in the event that it's executed more than onceâ€“
+        // But in the event that it's executed more than once–
         // Only decrement the outstanding interaction counts once.
         hasRun = true; // Update pending async counts for all wrapped interactions.
         // If this was the last scheduled async work for any of them,
