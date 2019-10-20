@@ -9,5 +9,8 @@ class Picture extends Model
 {
     use SoftDeletes;
 
-    //
+    protected $fillable = [
+        'link',
+        'advert',
+    ];
 }

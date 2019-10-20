@@ -9,5 +9,9 @@ class Message extends Model
 {
     use SoftDeletes;
 
-    //
+    protected $fillable = [
+        'recipient',
+        'sender',
+        'content',
+    ];
 }

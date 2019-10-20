@@ -173,9 +173,5 @@ return [
         'time'                  => 'heure',
         'available'             => 'disponible',
         'size'                  => 'taille',
-
-        'color'                 => 'couleur',
-        'customer_name'         => 'nom du client',
-        'deliverer_name'        => 'nom du livreur',
     ],
 ];

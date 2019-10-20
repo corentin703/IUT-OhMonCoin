@@ -25,8 +25,9 @@ return [
     'resetPassword' => 'Réinitialiser mot de passe',
     'sentPasswordResetLink' => "Envoyer le lien à cette adresse",
 
-    'name' => 'Nom d\'utilisateur',
+    'name' => 'Nom',
     'email' => 'Adresse mail',
+    'address' => 'Adresse postale',
     'password' => 'Mot de passe',
     'confirmPassword' => 'Confirmation du mot de passe',
     'phone' => 'Téléphone',
