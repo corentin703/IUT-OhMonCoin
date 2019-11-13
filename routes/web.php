@@ -18,3 +18,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/user', 'HomeController@userMenu')->name('user.space');
+
+//   Route::get('/api/users', 'UserController@fetch')->name('api.user.fetch');
+//   Route::put('/api/users', 'RegisterController@create')->name('api.user.create');
+//  Route::post('/api/users', 'UserController@update')->name('api.user.update');
+//Route::delete('/api/users', 'UserController@delete')->name('api.user.delete');
+//  Route::post('/api/users/password', 'UserController@updatePassword')->name('api.user.updatePassword');

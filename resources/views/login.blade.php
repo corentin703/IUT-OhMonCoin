@@ -30,7 +30,7 @@
     <body>
         <div class="container-fluid flex-center full-height">
             <div class="row">
-                <div class="logo col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <div class="logo col-sm-12 col-md-12 col-lg col-xl">
                     <img class="logo mx-auto" src="{{asset("asset/logo.png")}}" alt="OhMonCoin"/>
                     <br/>
                     <h1 class="logo">{{ config('app.name', 'OhMonCoin') }}</h1>
@@ -39,10 +39,10 @@
                 <br/>
                 <br/>
 
-                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
                     <div class="content">
                         <div class="row justify-content-center">
-                            <div class="card">
+                            <div class="card" style=" width: 90%">
                                 <div class="card-header" style="font-size: 20px;">{{ __('auth.login') }}</div>
 
                                 <div class="card-body">
