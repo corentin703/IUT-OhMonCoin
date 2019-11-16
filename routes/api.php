@@ -13,19 +13,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user/auth', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('/users', 'UserController');
-Route::patch('/users/{user}/password', 'UserController@updatePassword')->name('api.user.updatePassword');
 
-//Route::get('/users', 'UserController@fetch')->name('api.user.fetch');
-//Route::put('/users', 'RegisterController@create')->name('api.user.create');
-//Route::post('/users', 'UserController@update')->name('api.user.update');
-//Route::delete('/users', 'UserController@delete')->name('api.user.delete');
-//Route::post('/users/password', 'UserController@updatePassword')->name('api.user.updatePassword');
+//Route::middleware('auth:api')->group(function ()
+//{
+    Route::resource('/advert', 'API\AdvertController');
+    Route::resource('/category', 'API\CategoryController');
+    Route::resource('/message', 'API\MessageController');
+    Route::resource('/picture', 'API\PictureController');
+//});
 
-
+Route::resource('/user', 'API\UserController');
 
 

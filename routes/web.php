@@ -11,17 +11,31 @@
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
+//Route::get('/', 'Auth\LoginController@showLoginForm');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/user', 'HomeController@userMenu')->name('user.space');
+Route::get('/', 'HomeController@index')->name('dashboard');
 
-//   Route::get('/api/users', 'UserController@fetch')->name('api.user.fetch');
-//   Route::put('/api/users', 'RegisterController@create')->name('api.user.create');
-//  Route::post('/api/users', 'UserController@update')->name('api.user.update');
-//Route::delete('/api/users', 'UserController@delete')->name('api.user.delete');
-//  Route::post('/api/users/password', 'UserController@updatePassword')->name('api.user.updatePassword');
+//Route::get('/user', 'UserController@create')->name('user.create');
+//Route::get('/user/{user}', 'UserController@edit')->name('user.edit');
+Route::resource('/user', 'UserController');
+Route::resource('/advert', 'AdvertController');
+
+
+//Route::prefix('/api')->group(function ()
+//{
+//    Route::middleware('auth')->group(function ()
+//    {
+//        Route::resource('/advert', 'API\AdvertController');
+//        Route::resource('/category', 'API\CategoryController');
+//        Route::resource('/message', 'API\MessageController');
+//        Route::resource('/picture', 'API\PictureController');
+//    });
+//
+//    Route::resource('/user', 'API\UserController')
+//        ->except(['create', 'edit']);
+//});
+
+
+

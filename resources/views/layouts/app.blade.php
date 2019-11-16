@@ -41,11 +41,12 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('auth.login') }}</a>
+{{--                                <a class="nav-link" href="{{ route('login') }}">{{ __('auth.login') }}</a>--}}
+                                <a class="nav-link" onclick="$('#loginModal').modal()">{{ __('auth.login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('auth.register') }}</a>
+                                    <a class="nav-link" href="{{ route('user.create') }}">{{ __('auth.register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -55,7 +56,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('user.space') }}">Espace utilisateur</a>
+                                    <a class="dropdown-item" href="{{ route('user.edit', Auth::id()) }}">Espace utilisateur</a>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -77,6 +78,12 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        @guest
+            @include('login')
+        @endguest
     </div>
 </body>
 </html>
+
+

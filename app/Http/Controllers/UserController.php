@@ -2,140 +2,108 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateUser;
+use App\Repositories\UserRepository;
 use App\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function __construct()
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
     {
-// TODO: Résoudre ce problème !
-//        $this->middleware('auth:api');
+        $this->userRepository = $userRepository;
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        return User::all();
+        return response()->json($this->userRepository->all());
     }
 
-    public function show(User $article)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        return $article;
+        return view('user.create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-        $article = User::create($request->all());
+        $model = $this->userRepository->create($request->all());
 
-        return response()->json($article, 201);
+        if ($model)
+            return redirect('/home');
+        else
+            abort(500);
+
     }
 
-    public function update(UpdateUser $request, User $user)
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function show(User $user)
     {
-        dd(Auth::check(), $user->id);
-        if (Auth::check() && Auth::id() === $user->id)
+        return response()->json($user);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(User $user)
+    {
+        if ($user->id == Auth::id())
         {
-            $user->fill($request->all())
-                ->save();
+            return view('user.edit', [
+                'user' => $user,
+            ]);
         }
-
-        return response()->json(null, 204);
-    }
-
-    public function updatePassword(Request $request, User $user)
-    {
-        $validation = Validator::make($request->all(), [
-            'oldPassword' => ['required', 'password:api'],
-            'password' => ['required', 'confirmed', 'min:6', 'max:100'],
-        ]);
-
-        if (Auth::check() && (Auth::user()->id === $user->id))
+        else
         {
-            $user->password = Hash::make($validation['password']);
-            $user->save();
+            abort(403);
         }
-
-        dd("OK");
-
-        return response()->json(null, 204);
     }
 
-    public function destroy(Request $request, User $user)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $user)
     {
-        Validator::make($request->all(), [
-            'password' => ['required', 'password:api'],
-        ])->validate();
-
-        $user->delete();
-
-        return response()->json(null, 204);
+        $this->userRepository->update($request->all(), $user);
     }
 
-
-
-//    public function index()
-//    {
-//        return view('user', [
-//            'user' => Auth::user(),
-//        ]);
-//    }
-//
-//    /**
-//     * Returns a list of undeleted users
-//     *
-//     * @return JsonResponse
-//     */
-//    public function fetch() : JsonResponse
-//    {
-//        $users = User::all();
-//
-//        return new JsonResponse($users);
-//    }
-//
-////    cf. RegisterController (Laravel's auth system)
-////    public function create()
-////    {
-////
-////    }
-//
-//    public function update(UpdateUser $request)
-//    {
-//        dd("OK");
-//        if (Auth::check() && Auth::id() == $request->id)
-//        {
-//            User::find($request->input('id'))
-//                ->fill($request->all())
-//                ->save();
-//        }
-//    }
-//
-//    public function updatePassword(Request $request)
-//    {
-//        $validation = Validator::make($request->all(), [
-//            'oldPassword' => ['required', 'password:api'],
-//            'password' => ['required', 'confirmed', 'min:6', 'max:100'],
-//        ]);
-//
-//        if (Auth::check() && (Auth::user()->id === $request->input('id')))
-//        {
-//            $user = Auth::user();
-//            $user->password = Hash::make($validation['password']);
-//            $user->save();
-//        }
-//    }
-//
-//    public function delete(Request $request)
-//    {
-//        $validation = Validator::make($request->all(), [
-//            'id' => ['required', 'unique:users,id,' . $request->input('id')],
-////            'password' => ['required', 'password:api'],
-//        ]);
-//
-//        User::find($validation['id'])
-//            ->delete();
-//    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        $this->userRepository->delete($user);
+    }
 }
