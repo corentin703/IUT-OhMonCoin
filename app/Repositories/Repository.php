@@ -4,7 +4,6 @@
 namespace App\Repositories;
 
 
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class Repository

@@ -20,7 +20,8 @@ Route::get('/', 'HomeController@index')->name('dashboard');
 //Route::get('/user', 'UserController@create')->name('user.create');
 //Route::get('/user/{user}', 'UserController@edit')->name('user.edit');
 Route::resource('/user', 'UserController');
-Route::resource('/advert', 'AdvertController');
+Route::resource('/advert', 'AdvertController')
+    ->except(['create']);
 
 
 //Route::prefix('/api')->group(function ()

@@ -13,9 +13,13 @@ use Illuminate\Support\Facades\Validator;
 
 class UserRepository extends Repository
 {
-    public function __construct(User $model)
+    private $roleRepository;
+
+    public function __construct(User $model, RoleRepository $roleRepository)
     {
         parent::__construct($model);
+
+        $this->roleRepository = $roleRepository;
     }
 
     public function create(array $data): ?Model
@@ -31,9 +35,8 @@ class UserRepository extends Repository
         $user = new $this->model();
         $user->fill($data);
         $user->password = Hash::make($data['password']);
+        $user->role_id = $this->roleRepository->getRoleByName('classic')->id;
         $user->save();
-
-//        $user->role() ...
 
         return $user;
     }

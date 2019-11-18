@@ -21,4 +21,6 @@
     </div>
 </div>
 
+@include('advert.add')
+
 @endsection

@@ -47,7 +47,7 @@ class UserController extends Controller
         $model = $this->userRepository->create($request->all());
 
         if ($model)
-            return redirect('/home');
+            return redirect('/');
         else
             abort(500);
 
