@@ -15,5 +15,30 @@ class Advert extends Model
         'content',
         'user',
         'category',
+        'user',
     ];
+
+    protected $dates = [
+        'date',
+    ];
+
+    public function category()
+    {
+        $this->hasOne('App\Category');
+    }
+
+    public function setCategoryAttribute($value)
+    {
+        $this->attributes['category_id'] = $value->id;
+    }
+
+    public function user()
+    {
+        $this->belongsTo('App\User');
+    }
+
+    public function setUserAttribute($value)
+    {
+        $this->attributes['user_id'] = $value->id;
+    }
 }

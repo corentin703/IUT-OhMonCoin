@@ -7,7 +7,7 @@
 
 <div class="modal fade" id="addAdvert" tabindex="-1" role="dialog" aria-labelledby="addAdvert" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <form method="POST" action="{{ route('advert.store') }}">
+        <form method="POST" action="{{ route('advert.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
@@ -62,8 +62,8 @@
                         <label for="pictures" class="col-md-2 col-form-label text-md-right">Images</label>
 
                         <div class="col-md-9">
-                            <input type="hidden" name="MAX_FILE_SIZE" value="5242880"/> {{-- 5Mb max --}}
-                            <input id="pictures" type="file" class="form-control @error('category') is-invalid @enderror" name="pictures" required autocomplete="off" multiple>
+{{--                            <input type="hidden" name="MAX_FILE_SIZE" value="5242880"/> --}}{{-- 5Mb max --}}
+                            <input id="pictures" type="file" class="form-control @error('pictures') is-invalid @enderror" name="pictures[]" required autocomplete="off" multiple>
 
                             @error('pictures')
                             <span class="invalid-feedback" role="alert">

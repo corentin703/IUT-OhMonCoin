@@ -34,7 +34,12 @@ class AdvertController extends Controller
      */
     public function store(Request $request)
     {
-        $advert = $this->advertRepository->create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('pictures'))
+            $data['pictures'] = $request->file('pictures');
+
+        $advert = $this->advertRepository->create($data);
 
         return Response::json($advert, 201);
     }

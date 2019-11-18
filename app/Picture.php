@@ -13,4 +13,14 @@ class Picture extends Model
         'link',
         'advert',
     ];
+
+    public function advert()
+    {
+        $this->belongsTo('App\Advert');
+    }
+
+    public function setAdvertAttribute($value)
+    {
+        $this->attributes['advert_id'] = $value->id;
+    }
 }
