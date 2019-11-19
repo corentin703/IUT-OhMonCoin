@@ -11116,3 +11116,7 @@ a.text-dark:focus {
   border-radius: 5px;
 }
 
+textarea {
+  min-height: 100px;
+}
+

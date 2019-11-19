@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Advert;
 use App\Repositories\AdvertRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 
 class AdvertController extends Controller
@@ -16,32 +18,36 @@ class AdvertController extends Controller
         $this->advertRepository = $advertRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return Response::json($this->advertRepository->all(), 201);
-    }
+//    /**
+//     * Display a listing of the resource.
+//     *
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function index()
+//    {
+//        return Response::json($this->advertRepository->all(), 201);
+//    }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        if (Gate::allows('advert-create')) {
+            $data = $request->all();
 
-        if ($request->hasFile('pictures'))
-            $data['pictures'] = $request->file('pictures');
+            if ($request->hasFile('pictures'))
+                $data['pictures'] = $request->file('pictures');
 
-        $advert = $this->advertRepository->create($data);
+            $this->advertRepository->create($data);
 
-        return Response::json($advert, 201);
+            return Redirect::route('dashboard');
+        }
+        else
+            abort(403);
     }
 
     /**
@@ -52,7 +58,9 @@ class AdvertController extends Controller
      */
     public function show(Advert $advert)
     {
-        return $this->advertRepository->show($advert);
+        return view('advert.show', [
+            'advert' => $advert,
+        ]);
     }
 
     /**
@@ -63,7 +71,14 @@ class AdvertController extends Controller
      */
     public function edit(Advert $advert)
     {
-        //
+        if (Gate::allows('advert-update', $advert))
+        {
+            return view('advert.edit', [
+                'advert' => $advert,
+            ]);
+        }
+        else
+            abort(403);
     }
 
     /**
@@ -71,13 +86,23 @@ class AdvertController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Advert  $advert
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Advert $advert)
     {
-        $advert = $this->advertRepository->update($request->all(), $advert);
+        if (Gate::allows('advert-update', $advert))
+        {
+            $data = $request->all();
 
-        return $advert;
+            if ($request->hasFile('pictures'))
+                $data['pictures'] = $request->file('pictures');
+
+            $this->advertRepository->update($data, $advert);
+
+            return Redirect::back();
+        }
+        else
+            abort(403);
     }
 
     /**
@@ -88,8 +113,13 @@ class AdvertController extends Controller
      */
     public function destroy(Advert $advert)
     {
-        $this->advertRepository->delete($advert);
+        if (Gate::allows('advert-update', $advert))
+        {
+            $this->advertRepository->delete($advert);
 
-        return Response::json(null, 201);
+            return Redirect::route('dashboard');
+        }
+        else
+            abort(403);
     }
 }

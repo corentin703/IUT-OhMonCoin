@@ -21,7 +21,7 @@ Route::get('/', 'HomeController@index')->name('dashboard');
 //Route::get('/user/{user}', 'UserController@edit')->name('user.edit');
 Route::resource('/user', 'UserController');
 Route::resource('/advert', 'AdvertController')
-    ->except(['create']);
+    ->except(['index', 'create']);
 
 
 //Route::prefix('/api')->group(function ()

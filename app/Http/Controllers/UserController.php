@@ -6,6 +6,9 @@ use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 
 class UserController extends Controller
 {
@@ -40,14 +43,14 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
         $model = $this->userRepository->create($request->all());
 
         if ($model)
-            return redirect('/');
+            return Redirect::to('/');
         else
             abort(500);
 
@@ -57,11 +60,11 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(User $user)
     {
-        return response()->json($user);
+        return Response::json($user, 200);
     }
 
     /**
@@ -72,16 +75,14 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if ($user->id == Auth::id())
+        if (Gate::allows('user-update'))
         {
             return view('user.edit', [
                 'user' => $user,
             ]);
         }
         else
-        {
             abort(403);
-        }
     }
 
     /**
@@ -89,21 +90,35 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, User $user)
     {
-        $this->userRepository->update($request->all(), $user);
+        if (Gate::allows('user-update'))
+        {
+            $this->userRepository->update($request->all(), $user);
+
+            return Redirect::back();
+        }
+        else
+            abort(403);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(User $user)
     {
-        $this->userRepository->delete($user);
+        if (Gate::allows('user-update'))
+        {
+            $this->userRepository->delete($user);
+
+            return Redirect::to('/');
+        }
+        else
+            abort(403);
     }
 }

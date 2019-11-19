@@ -25,7 +25,7 @@ class AdvertRepository extends Repository
     {
         $validation = Validator::make($data, [
             'title' => ['required', 'min:8'],
-            'category' => ['required', 'min:8'],
+            'category' => ['required', 'exists:categories,name'],
             'content' => ['required', 'min:20'],
             'pictures.*' => ['image', 'mimes:jpeg,bmp,png', 'max:5000'],
         ])->validate();
@@ -53,8 +53,6 @@ class AdvertRepository extends Repository
             {
                 $image = $image->storeAs('images', $id . $image->getExtension(), 'public');
 
-//                dd($image);
-
                 Picture::create([
                     'link' => $image,
                     'advert' => $advert,
@@ -63,6 +61,30 @@ class AdvertRepository extends Repository
                 $id++;
             }
         }
+
+        DB::commit();
+
+        return $advert;
+    }
+
+    public function update(array $data, $advert): ?Model
+    {
+        $validation = Validator::make($data, [
+            'title' => ['required', 'min:8'],
+            'category' => ['required', 'exists:categories,name'],
+            'content' => ['required', 'min:20'],
+            'pictures.*' => ['image', 'mimes:jpeg,bmp,png', 'max:5000'],
+        ])->validate();
+
+        DB::beginTransaction();
+
+        $validation['date'] = Carbon::today();
+        $validation['user'] = Auth::user();
+        $validation['category'] = Category::find('1');
+
+        $advert->update($validation);
+
+        // TODO: Images (garder à l'esprit que des images existantes peuvent-être supprimées)
 
         DB::commit();
 

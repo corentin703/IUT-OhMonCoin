@@ -24,7 +24,7 @@ class Advert extends Model
 
     public function category()
     {
-        return $this->hasOne('App\Category');
+        return $this->belongsTo('App\Category');
     }
 
     public function setCategoryAttribute($value)

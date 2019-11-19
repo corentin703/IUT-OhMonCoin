@@ -76,7 +76,7 @@
                 <div class="modal-footer">
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Poster</button>
-                        <button type="button" class="btn btn-dark" data-dismiss="modal" data-target="#login">Fermer</button>
+                        <button type="button" class="btn btn-dark" data-dismiss="modal" data-target="#addAdvert">Fermer</button>
                     </div>
                 </div>
             </div>

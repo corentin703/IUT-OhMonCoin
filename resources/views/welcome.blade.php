@@ -19,12 +19,17 @@
                     @foreach($adverts as $advert)
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col">
-                                    <h4>{{ $advert->title }}</h4>
+                                <div class="@if ($advert->pictures) col-6 @else col-12 @endif">
+                                    <a href="{{ route('advert.show', $advert->id) }}" class="stretched-link"><h4>{{ $advert->title }}</h4></a>
                                     <p>{{ $advert->content }}</p>
+                                    @can('advert-update', $advert)
+                                        <div class="btn-group" role="group" style="z-index: 1">
+                                            <button class="btn btn-secondary" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">Mettre à jour</button>
+                                        </div>
+                                    @endcan
                                 </div>
-                                @if ($advert->pictures)
                                 <div class="col-6">
+                                    @if ($advert->pictures->count())
                                     <div id="carousel-{{ $advert->id }}" class="carousel slide" data-ride="carousel">
                                         <div class="carousel-inner">
                                             @foreach($advert->pictures as $key => $picture)
@@ -33,6 +38,7 @@
                                             </div>
                                             @endforeach
                                         </div>
+                                        @if ($advert->pictures->count() > 1)
                                         <a class="carousel-control-prev" href="#carousel-{{ $advert->id }}" role="button" data-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                             <span class="sr-only">Previous</span>
@@ -41,9 +47,15 @@
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                             <span class="sr-only">Next</span>
                                         </a>
+                                        @endif
                                     </div>
+                                    @else
+                                         <p class="text-center">
+                                             L'utilisateur n'a pas mis d'image
+                                         </p>
+                                    @endif
                                 </div>
-                                @endif
+
                             </div>
                         </li>
                     @endforeach
@@ -54,8 +66,9 @@
     </div>
 </div>
 
-@auth
+
+@can('advert-create')
     @include('advert.add')
-@endauth
+@endcan
 
 @endsection
