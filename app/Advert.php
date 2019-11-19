@@ -24,7 +24,7 @@ class Advert extends Model
 
     public function category()
     {
-        $this->hasOne('App\Category');
+        return $this->hasOne('App\Category');
     }
 
     public function setCategoryAttribute($value)
@@ -34,11 +34,16 @@ class Advert extends Model
 
     public function user()
     {
-        $this->belongsTo('App\User');
+        return $this->belongsTo('App\User');
     }
 
     public function setUserAttribute($value)
     {
         $this->attributes['user_id'] = $value->id;
+    }
+
+    public function pictures()
+    {
+        return $this->hasMany('App\Picture');
     }
 }

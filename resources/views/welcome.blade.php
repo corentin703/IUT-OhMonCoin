@@ -14,13 +14,48 @@
                         </div>
                     @endif
 
-                    Oh quelles belles annonces...
+
+                    <ul class="list-group list-group-flush">
+                    @foreach($adverts as $advert)
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col">
+                                    <h4>{{ $advert->title }}</h4>
+                                    <p>{{ $advert->content }}</p>
+                                </div>
+                                @if ($advert->pictures)
+                                <div class="col-6">
+                                    <div id="carousel-{{ $advert->id }}" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            @foreach($advert->pictures as $key => $picture)
+                                            <div class="carousel-item @if($key === 0) active @endif">
+                                                <img src="{{ asset('public/' . $picture->link) }}" class="d-block w-100" alt="...">
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carousel-{{ $advert->id }}" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carousel-{{ $advert->id }}" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </li>
+                    @endforeach
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-@include('advert.add')
+@auth
+    @include('advert.add')
+@endauth
 
 @endsection

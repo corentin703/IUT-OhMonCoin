@@ -53,8 +53,10 @@ class AdvertRepository extends Repository
             {
                 $image = $image->storeAs('images', $id . $image->getExtension(), 'public');
 
+//                dd($image);
+
                 Picture::create([
-                    'link' => 'app/public/' . $image,
+                    'link' => $image,
                     'advert' => $advert,
                 ]);
 

@@ -16,7 +16,7 @@ class Picture extends Model
 
     public function advert()
     {
-        $this->belongsTo('App\Advert');
+        return $this->belongsTo('App\Advert');
     }
 
     public function setAdvertAttribute($value)

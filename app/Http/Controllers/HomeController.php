@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\AdvertRepository;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    private $advertRepository;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(AdvertRepository $advertRepository)
     {
 //        $this->middleware('auth');
+        $this->advertRepository = $advertRepository;
     }
 
     /**
@@ -23,6 +27,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        return view('welcome', [
+            'adverts' => $this->advertRepository->all(),
+        ]);
     }
 }
