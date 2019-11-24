@@ -11,17 +11,26 @@
 |
 */
 
-//Route::get('/', 'Auth\LoginController@showLoginForm');
-
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('dashboard');
 
-//Route::get('/user', 'UserController@create')->name('user.create');
-//Route::get('/user/{user}', 'UserController@edit')->name('user.edit');
-Route::resource('/user', 'UserController');
+// Adverts
 Route::resource('/advert', 'AdvertController')
-    ->except(['index', 'create']);
+    ->except(['create']);
+Route::get('/advert/user/{user}', 'AdvertController@index');
+
+
+// Pictures
+Route::resource('/picture', 'PictureController')
+    ->only(['store', 'destroy']);
+
+
+// Users
+Route::resource('/user', 'UserController');
+
+
+// Redirections
+Route::redirect('/', route('advert.index'))->name('home');
 
 
 //Route::prefix('/api')->group(function ()

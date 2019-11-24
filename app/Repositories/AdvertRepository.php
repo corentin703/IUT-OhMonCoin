@@ -5,7 +5,6 @@ namespace App\Repositories;
 
 
 use App\Advert;
-use App\Category;
 use App\Picture;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -16,16 +15,21 @@ use Illuminate\Support\Facades\Validator;
 
 class AdvertRepository extends Repository
 {
-    public function __construct(Advert $model)
+    private $categoryRepository;
+    private $pictureRepository;
+
+    public function __construct(Advert $model, CategoryRepository $categoryRepository, PictureRepository $pictureRepository)
     {
         parent::__construct($model);
+        $this->categoryRepository = $categoryRepository;
+        $this->pictureRepository = $pictureRepository;
     }
 
     public function create(array $data): ?Model
     {
         $validation = Validator::make($data, [
             'title' => ['required', 'min:8'],
-            'category' => ['required', 'exists:categories,name'],
+            'category' => ['required', 'exists:categories,id'],
             'content' => ['required', 'min:20'],
             'pictures.*' => ['image', 'mimes:jpeg,bmp,png', 'max:5000'],
         ])->validate();
@@ -34,7 +38,7 @@ class AdvertRepository extends Repository
 
         $validation['date'] = Carbon::today();
         $validation['user'] = Auth::user();
-        $validation['category'] = Category::find('1');
+        $validation['category'] = $this->categoryRepository->find($validation['category']);
 
         $advert = $this->model->create($validation);
 
@@ -42,23 +46,12 @@ class AdvertRepository extends Repository
         {
             $images = $validation['pictures'];
 
-            $id = DB::table('pictures')->orderBy('id', 'desc')->get('id')->first();
-
-            if ($id == null)
-                $id = 1;
-            else
-                $id = $id->id;
-
-            foreach ($images as $image)
+            foreach ($images as $picture)
             {
-                $image = $image->storeAs('images', $id . $image->getExtension(), 'public');
-
-                Picture::create([
-                    'link' => $image,
+                $this->pictureRepository->create([
                     'advert' => $advert,
+                    'picture' => $picture,
                 ]);
-
-                $id++;
             }
         }
 
@@ -71,23 +64,28 @@ class AdvertRepository extends Repository
     {
         $validation = Validator::make($data, [
             'title' => ['required', 'min:8'],
-            'category' => ['required', 'exists:categories,name'],
+            'category' => ['required', 'exists:categories,id'],
             'content' => ['required', 'min:20'],
             'pictures.*' => ['image', 'mimes:jpeg,bmp,png', 'max:5000'],
         ])->validate();
 
-        DB::beginTransaction();
+//        DB::beginTransaction();
 
         $validation['date'] = Carbon::today();
         $validation['user'] = Auth::user();
-        $validation['category'] = Category::find('1');
+        $validation['category'] = $this->categoryRepository->find($validation['category']);
 
         $advert->update($validation);
 
         // TODO: Images (garder à l'esprit que des images existantes peuvent-être supprimées)
 
-        DB::commit();
+//        DB::commit();
 
         return $advert;
+    }
+
+    public function getByUser(User $user)
+    {
+        return $this->model->all()->where('user', $user);
     }
 }

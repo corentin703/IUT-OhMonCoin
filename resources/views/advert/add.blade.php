@@ -1,4 +1,6 @@
 
+@inject('categories', 'App\Repositories\CategoryRepository')
+
 <div id="btnDock" class="btn-group dropup dock_group">
     <div>
         <button id="btnAddAdvert" class="btn btn-primary" onclick="$('#addAdvert').modal()">Ajouter une annonce</button>
@@ -35,7 +37,11 @@
                         <label for="category" class="col-md-2 col-form-label text-md-right">Catégorie</label>
 
                         <div class="col-md-9">
-                            <input id="category" type="text" class="form-control @error('category') is-invalid @enderror" name="category" required autocomplete="off">
+                            <select id="category" class="form-control @error('category') is-invalid @enderror" name="category" required autocomplete="off">
+                                @foreach($categories->all() as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
 
                             @error('category')
                             <span class="invalid-feedback" role="alert">

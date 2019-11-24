@@ -4,29 +4,47 @@ namespace App\Http\Controllers;
 
 use App\Advert;
 use App\Repositories\AdvertRepository;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Response;
 
 class AdvertController extends Controller
 {
     private $advertRepository;
+//    private $categoryRepository;
 
+//    public function __construct(AdvertRepository $advertRepository, CategoryRepository $categoryRepository)
     public function __construct(AdvertRepository $advertRepository)
     {
         $this->advertRepository = $advertRepository;
+//        $this->categoryRepository = $categoryRepository;
     }
 
-//    /**
-//     * Display a listing of the resource.
-//     *
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function index()
-//    {
-//        return Response::json($this->advertRepository->all(), 201);
-//    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(User $user = null)
+    {
+        if ($user)
+        {
+            return view('advert.index', [
+                'title' => "Annonces de " . $user->name,
+                'adverts' => $this->advertRepository->getByUser($user),
+                'canCreate' => (Auth::id() === $user->id),
+//                'categories' => $this->categoryRepository->all(),
+            ]);
+        }
+
+        return view('advert.index', [
+            'title' => "Annonces actuelles",
+            'adverts' => $this->advertRepository->all(),
+//            'categories' => $this->categoryRepository->all(),
+        ]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -75,6 +93,7 @@ class AdvertController extends Controller
         {
             return view('advert.edit', [
                 'advert' => $advert,
+                'pictures' => $advert->pictures,
             ]);
         }
         else

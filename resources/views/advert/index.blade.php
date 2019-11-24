@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">Annonces actuelles</div>
+                <div class="card-header">{{ $title }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -66,9 +66,10 @@
     </div>
 </div>
 
-
-@can('advert-create')
-    @include('advert.add')
-@endcan
+@if ((isset($canCreate) && $canCreate) || !isset($canCreate))
+    @can('advert-create')
+        @include('advert.add')
+    @endcan
+@endif
 
 @endsection

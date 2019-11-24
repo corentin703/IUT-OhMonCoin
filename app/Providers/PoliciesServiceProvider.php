@@ -28,6 +28,10 @@ class PoliciesServiceProvider extends ServiceProvider
         Gate::define('advert-create', 'App\Policies\AdvertPolicy@create');
         Gate::define('advert-update', 'App\Policies\AdvertPolicy@update');
 
+        // Pictures policies
+        Gate::define('picture-create', 'App\Policies\PicturePolicy@create');
+        Gate::define('picture-update', 'App\Policies\PicturePolicy@update');
+
         // Users policies
         Gate::define('user-update', 'App\Policies\UserPolicy@update');
         Gate::define('user-updatePassword', 'App\Policies\UserPolicy@updatePassword');

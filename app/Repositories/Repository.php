@@ -20,12 +20,12 @@ abstract class Repository
         return $this->model->all();
     }
 
-    public function create(array $data) : ?Model
+    public function create(array $data)
     {
         return $this->model->create($data);
     }
 
-    public function update(array $data, $element) : ?Model
+    public function update(array $data, $element)
     {
         return $this->getModelInstance($element)->update($data);
     }
