@@ -18,6 +18,7 @@ Auth::routes();
 Route::resource('/advert', 'AdvertController')
     ->except(['create']);
 Route::get('/advert/user/{user}', 'AdvertController@index');
+Route::get('/advert/follow/{advert}', 'AdvertController@follow');
 
 
 // Pictures

@@ -22,11 +22,15 @@
                                 <div class="@if ($advert->pictures) col-6 @else col-12 @endif">
                                     <a href="{{ route('advert.show', $advert->id) }}" class="stretched-link"><h4>{{ $advert->title }}</h4></a>
                                     <p>{{ $advert->content }}</p>
+                                    <div class="btn-group" role="group" style="z-index: 1">
                                     @can('advert-update', $advert)
-                                        <div class="btn-group" role="group" style="z-index: 1">
-                                            <button class="btn btn-secondary" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">Mettre à jour</button>
-                                        </div>
+                                        <button class="btn btn-secondary" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">Mettre à jour</button>
+                                    @elsecan('advert-follow', $advert)
+                                        <button class="btn btn-info" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">
+                                            Suivre
+                                        </button>
                                     @endcan
+                                    </div>
                                 </div>
                                 <div class="col-6">
                                     @if ($advert->pictures->count())

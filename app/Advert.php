@@ -46,4 +46,9 @@ class Advert extends Model
     {
         return $this->hasMany('App\Picture');
     }
+
+    public function follower()
+    {
+        return $this->hasMany('App\AdvertFollow');
+    }
 }

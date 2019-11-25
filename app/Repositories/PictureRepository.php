@@ -15,9 +15,10 @@ class PictureRepository extends Repository
         parent::__construct($model);
     }
 
-    public function create(array $datas): ?array
+    public function create(array $datas, bool $dbControl = false): ?array
     {
-        DB::beginTransaction();
+        if ($dbControl)
+            DB::beginTransaction();
 
         $pictures = [];
 
@@ -31,7 +32,8 @@ class PictureRepository extends Repository
             $pictures[] = $this->model->create($data);
         }
 
-        DB::commit();
+        if ($dbControl)
+            DB::commit();
 
         return $pictures;
     }

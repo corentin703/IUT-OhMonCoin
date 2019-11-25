@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserCreateRequest;
 use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
@@ -45,7 +46,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
         $model = $this->userRepository->create($request->all());
 

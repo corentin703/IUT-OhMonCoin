@@ -69,7 +69,7 @@
 
                         <div class="col-md-9">
 {{--                            <input type="hidden" name="MAX_FILE_SIZE" value="5242880"/> --}}{{-- 5Mb max --}}
-                            <input id="pictures" type="file" class="form-control @error('pictures') is-invalid @enderror" name="pictures[]" required autocomplete="off" multiple>
+                            <input id="pictures" type="file" class="form-control @error('pictures') is-invalid @enderror" name="pictures[]" autocomplete="off" multiple>
 
                             @error('pictures')
                             <span class="invalid-feedback" role="alert">

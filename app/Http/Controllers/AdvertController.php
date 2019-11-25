@@ -3,23 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Advert;
+use App\Repositories\AdvertFollowRepository;
 use App\Repositories\AdvertRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 
 class AdvertController extends Controller
 {
     private $advertRepository;
-//    private $categoryRepository;
+    private $advertFollowRepository;
 
-//    public function __construct(AdvertRepository $advertRepository, CategoryRepository $categoryRepository)
-    public function __construct(AdvertRepository $advertRepository)
+    public function __construct(AdvertRepository $advertRepository, AdvertFollowRepository $advertFollowRepository)
     {
         $this->advertRepository = $advertRepository;
-//        $this->categoryRepository = $categoryRepository;
+        $this->advertFollowRepository = $advertFollowRepository;
     }
 
     /**
@@ -35,14 +36,12 @@ class AdvertController extends Controller
                 'title' => "Annonces de " . $user->name,
                 'adverts' => $this->advertRepository->getByUser($user),
                 'canCreate' => (Auth::id() === $user->id),
-//                'categories' => $this->categoryRepository->all(),
             ]);
         }
 
         return view('advert.index', [
             'title' => "Annonces actuelles",
             'adverts' => $this->advertRepository->all(),
-//            'categories' => $this->categoryRepository->all(),
         ]);
     }
 
@@ -62,10 +61,10 @@ class AdvertController extends Controller
 
             $this->advertRepository->create($data);
 
-            return Redirect::route('dashboard');
+            return Redirect::route('home');
         }
         else
-            abort(403);
+            return abort(403);
     }
 
     /**
@@ -97,7 +96,7 @@ class AdvertController extends Controller
             ]);
         }
         else
-            abort(403);
+            return abort(403);
     }
 
     /**
@@ -121,14 +120,41 @@ class AdvertController extends Controller
             return Redirect::back();
         }
         else
-            abort(403);
+            return abort(403);
+    }
+
+    public function follow(Advert $advert)
+    {
+        if (Gate::allows('advert-follow', $advert))
+        {
+            $advertFollow = $this->advertFollowRepository->getByUserAndModel(Auth::user(), $advert);
+
+            if ($advertFollow)
+            {
+                $this->advertFollowRepository->delete($advertFollow);
+
+                return Response::json(['follow' => false], 200);
+            }
+            else
+            {
+                $this->advertFollowRepository->create([
+                    'advert' => $advert,
+                    'user' => Auth::user(),
+                ]);
+
+                return Response::json(['follow' => true], 200);
+            }
+
+        }
+        else
+            return abort(403);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Advert  $advert
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Advert $advert)
     {
@@ -136,9 +162,9 @@ class AdvertController extends Controller
         {
             $this->advertRepository->delete($advert);
 
-            return Redirect::route('dashboard');
+            return Redirect::route('home');
         }
         else
-            abort(403);
+            return abort(403);
     }
 }

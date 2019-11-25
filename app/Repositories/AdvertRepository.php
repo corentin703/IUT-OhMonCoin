@@ -44,15 +44,10 @@ class AdvertRepository extends Repository
 
         if (isset($validation['pictures']))
         {
-            $images = $validation['pictures'];
-
-            foreach ($images as $picture)
-            {
-                $this->pictureRepository->create([
-                    'advert' => $advert,
-                    'picture' => $picture,
-                ]);
-            }
+            $this->pictureRepository->create([
+                'advert' => $advert,
+                'pictures' => $validation['pictures'],
+            ], true);
         }
 
         DB::commit();
@@ -69,17 +64,11 @@ class AdvertRepository extends Repository
             'pictures.*' => ['image', 'mimes:jpeg,bmp,png', 'max:5000'],
         ])->validate();
 
-//        DB::beginTransaction();
-
         $validation['date'] = Carbon::today();
         $validation['user'] = Auth::user();
         $validation['category'] = $this->categoryRepository->find($validation['category']);
 
         $advert->update($validation);
-
-        // TODO: Images (garder à l'esprit que des images existantes peuvent-être supprimées)
-
-//        DB::commit();
 
         return $advert;
     }

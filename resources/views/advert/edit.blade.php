@@ -2,6 +2,8 @@
 
 @section('content')
 
+@inject('categories', 'App\Repositories\CategoryRepository')
+
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -22,7 +24,7 @@
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                Titre : <input class="form-control" name="title" value="{{ $advert->title }}"/>
+                                Titre : <input class="form-control @error('title') is-invalid @enderror" name="title" value="{{ $advert->title }}"/>
                                 @error('title')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -30,15 +32,20 @@
                                 @enderror
                             </li>
                             <li class="list-group-item">
-                                Catégorie : <input class="form-control" name="category" value="{{ $advert->category->name }}"/>
-                                @error('title')
+                                Catégorie :
+                                <select id="category" class="form-control @error('category') is-invalid @enderror" name="category" required autocomplete="off">
+                                    @foreach($categories->all() as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('category')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </li>
                             <li class="list-group-item">
-                                Contenu : <textarea class="form-control" name="content">{{ $advert->content }}</textarea>
+                                Contenu : <textarea class="form-control @error('content') is-invalid @enderror" name="content">{{ $advert->content }}</textarea>
                                 @error('content')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

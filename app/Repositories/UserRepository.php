@@ -24,14 +24,6 @@ class UserRepository extends Repository
 
     public function create(array $data): ?Model
     {
-        $validation = Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,deleted_at,NULL'],
-            'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255', 'unique:users,deleted_at,NULL'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ])->validate();
-
         $user = new $this->model();
         $user->fill($data);
         $user->password = Hash::make($data['password']);
@@ -45,9 +37,9 @@ class UserRepository extends Repository
     {
         $validation = Validator::make($data, [
             'name' => ['required', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $element->id],
             'address' => ['required', 'max:255'],
-            'phone' => ['required', 'string', 'max:255', 'unique:users,phone,' . $user->id],
+            'phone' => ['required', 'string', 'max:255', 'unique:users,phone,' . $element->id],
         ])->validate();
 
         $user = $this->getModelInstance($element);

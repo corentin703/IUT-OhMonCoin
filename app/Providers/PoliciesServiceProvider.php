@@ -27,6 +27,7 @@ class PoliciesServiceProvider extends ServiceProvider
         // Adverts policies
         Gate::define('advert-create', 'App\Policies\AdvertPolicy@create');
         Gate::define('advert-update', 'App\Policies\AdvertPolicy@update');
+        Gate::define('advert-follow', 'App\Policies\AdvertPolicy@follow');
 
         // Pictures policies
         Gate::define('picture-create', 'App\Policies\PicturePolicy@create');

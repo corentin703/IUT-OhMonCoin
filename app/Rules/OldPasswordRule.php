@@ -42,6 +42,6 @@ class OldPasswordRule implements Rule
      */
     public function message()
     {
-        return 'Le mot de actuel n\'est pas valide.';
+        return 'Le mot de passe actuel n\'est pas valide.';
     }
 }
