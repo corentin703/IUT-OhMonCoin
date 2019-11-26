@@ -45,6 +45,6 @@ class PictureRepository extends Repository
         if ($id == null)
             return 1;
 
-        return $id->id;
+        return $id->id + 1;
     }
 }

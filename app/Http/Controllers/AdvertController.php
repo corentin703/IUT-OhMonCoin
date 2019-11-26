@@ -21,6 +21,8 @@ class AdvertController extends Controller
     {
         $this->advertRepository = $advertRepository;
         $this->advertFollowRepository = $advertFollowRepository;
+
+        $this->authorizeResource(Advert::class, 'advert');
     }
 
     /**
@@ -53,18 +55,18 @@ class AdvertController extends Controller
      */
     public function store(Request $request)
     {
-        if (Gate::allows('advert-create')) {
-            $data = $request->all();
+//        if (Gate::allows('advert-create')) {
+        $data = $request->all();
 
-            if ($request->hasFile('pictures'))
-                $data['pictures'] = $request->file('pictures');
+        if ($request->hasFile('pictures'))
+            $data['pictures'] = $request->file('pictures');
 
-            $this->advertRepository->create($data);
+        $this->advertRepository->create($data);
 
-            return Redirect::route('home');
-        }
-        else
-            return abort(403);
+        return Redirect::route('home');
+//        }
+//        else
+//            return abort(403);
     }
 
     /**
@@ -88,15 +90,15 @@ class AdvertController extends Controller
      */
     public function edit(Advert $advert)
     {
-        if (Gate::allows('advert-update', $advert))
-        {
-            return view('advert.edit', [
-                'advert' => $advert,
-                'pictures' => $advert->pictures,
-            ]);
-        }
-        else
-            return abort(403);
+//        if (Gate::allows('advert-update', $advert))
+//        {
+        return view('advert.edit', [
+            'advert' => $advert,
+            'pictures' => $advert->pictures,
+        ]);
+//        }
+//        else
+//            return abort(403);
     }
 
     /**
@@ -108,46 +110,54 @@ class AdvertController extends Controller
      */
     public function update(Request $request, Advert $advert)
     {
-        if (Gate::allows('advert-update', $advert))
-        {
-            $data = $request->all();
+//        if (Gate::allows('advert-update', $advert))
+//        {
+        $data = $request->all();
 
-            if ($request->hasFile('pictures'))
-                $data['pictures'] = $request->file('pictures');
+        if ($request->hasFile('pictures'))
+            $data['pictures'] = $request->file('pictures');
 
-            $this->advertRepository->update($data, $advert);
+        $this->advertRepository->update($data, $advert);
 
-            return Redirect::back();
-        }
-        else
-            return abort(403);
+        return Redirect::back();
+//        }
+//        else
+//            return abort(403);
     }
 
+    /**
+     * Follow the specified resource in storage.
+     *
+     * @param  \App\Advert  $advert
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function follow(Advert $advert)
     {
-        if (Gate::allows('advert-follow', $advert))
+//        if (Gate::allows('advert-follow', $advert))
+//        {
+        $this->authorize('follow', Advert::class);
+
+        $advertFollow = $this->advertFollowRepository->getByUserAndModel(Auth::user(), $advert);
+
+        if ($advertFollow)
         {
-            $advertFollow = $this->advertFollowRepository->getByUserAndModel(Auth::user(), $advert);
+            $this->advertFollowRepository->delete($advertFollow);
 
-            if ($advertFollow)
-            {
-                $this->advertFollowRepository->delete($advertFollow);
-
-                return Response::json(['follow' => false], 200);
-            }
-            else
-            {
-                $this->advertFollowRepository->create([
-                    'advert' => $advert,
-                    'user' => Auth::user(),
-                ]);
-
-                return Response::json(['follow' => true], 200);
-            }
-
+            return Response::json(['follow' => false], 200);
         }
         else
-            return abort(403);
+        {
+            $this->advertFollowRepository->create([
+                'advert' => $advert,
+                'user' => Auth::user(),
+            ]);
+
+            return Response::json(['follow' => true], 200);
+        }
+//
+//        }
+//        else
+//            return abort(403);
     }
 
     /**
@@ -158,13 +168,13 @@ class AdvertController extends Controller
      */
     public function destroy(Advert $advert)
     {
-        if (Gate::allows('advert-update', $advert))
-        {
-            $this->advertRepository->delete($advert);
+//        if (Gate::allows('advert-update', $advert))
+//        {
+        $this->advertRepository->delete($advert);
 
-            return Redirect::route('home');
-        }
-        else
-            return abort(403);
+        return Redirect::route('home');
+//        }
+//        else
+//            return abort(403);
     }
 }

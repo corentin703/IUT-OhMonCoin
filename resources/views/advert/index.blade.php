@@ -23,9 +23,9 @@
                                     <a href="{{ route('advert.show', $advert->id) }}" class="stretched-link"><h4>{{ $advert->title }}</h4></a>
                                     <p>{{ $advert->content }}</p>
                                     <div class="btn-group" role="group" style="z-index: 1">
-                                    @can('advert-update', $advert)
+                                    @can('update', $advert)
                                         <button class="btn btn-secondary" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">Mettre à jour</button>
-                                    @elsecan('advert-follow', $advert)
+                                    @elsecan('follow', $advert)
                                         <button class="btn btn-info" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">
                                             Suivre
                                         </button>
@@ -71,7 +71,7 @@
 </div>
 
 @if ((isset($canCreate) && $canCreate) || !isset($canCreate))
-    @can('advert-create')
+    @can('create', App\Advert::class)
         @include('advert.add')
     @endcan
 @endif

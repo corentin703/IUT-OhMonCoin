@@ -6,7 +6,6 @@ use App\Http\Requests\UserCreateRequest;
 use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -18,6 +17,8 @@ class UserController extends Controller
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
+
+        $this->authorizeResource(User::class, 'user');
     }
 
     /**
@@ -76,14 +77,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if (Gate::allows('user-update'))
-        {
-            return view('user.edit', [
-                'user' => $user,
-            ]);
-        }
-        else
-            abort(403);
+        return view('user.edit', [
+            'user' => $user,
+        ]);
     }
 
     /**

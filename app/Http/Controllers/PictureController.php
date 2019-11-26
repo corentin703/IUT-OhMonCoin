@@ -8,6 +8,7 @@ use App\Repositories\PictureRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 
 class PictureController extends Controller
 {
@@ -18,6 +19,8 @@ class PictureController extends Controller
     {
         $this->advertRepository = $advertRepository;
         $this->pictureRepository = $pictureRepository;
+
+//        $this->authorizeResource(Picture::class, 'picture');
     }
 
 //    /**
@@ -50,19 +53,16 @@ class PictureController extends Controller
     {
         $advert = $this->advertRepository->find($request->input('advert_id'));
 
-        if (Gate::allows('picture-create', $advert))
-        {
-            $data = $request->all();
+        $this->authorize('create', $advert);
 
-            if ($request->hasFile('pictures'))
-                $data['pictures'] = $request->file('pictures');
+        $data = $request->all();
 
-            $data['advert'] = $advert;
+        if ($request->hasFile('pictures'))
+            $data['pictures'] = $request->file('pictures');
 
-            $this->pictureRepository->create($data);
-        }
-        else
-            abort(403);
+        $data['advert'] = $advert;
+
+        $this->pictureRepository->create($data);
 
         return Redirect::back();
     }
@@ -105,15 +105,14 @@ class PictureController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Picture  $picture
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Picture $picture)
     {
-        if (Gate::allows('picture-update', $picture))
-        {
-            $this->pictureRepository->delete($picture);
-        }
-        else
-            abort(403);
+        $this->authorize('delete', $picture);
+
+        $this->pictureRepository->delete($picture);
+
+        return Response::json(['success' => true], 200);
     }
 }
