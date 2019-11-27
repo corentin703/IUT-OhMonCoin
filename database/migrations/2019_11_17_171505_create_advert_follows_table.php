@@ -17,8 +17,8 @@ class CreateAdvertFollowsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('avert_id');
-            $table->foreign('avert_id')->references('id')->on('adverts');
+            $table->unsignedBigInteger('advert_id');
+            $table->foreign('advert_id')->references('id')->on('adverts');
             $table->timestamps();
         });
     }

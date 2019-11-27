@@ -91,14 +91,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        if (Gate::allows('user-update'))
-        {
-            $this->userRepository->update($request->all(), $user);
+        $this->userRepository->update($request->all(), $user);
 
-            return Redirect::back();
-        }
-        else
-            abort(403);
+        return Redirect::back();
     }
 
     /**
@@ -109,13 +104,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if (Gate::allows('user-update'))
-        {
-            $this->userRepository->delete($user);
+        $this->userRepository->delete($user);
 
-            return Redirect::to('/');
-        }
-        else
-            abort(403);
+        return Redirect::to('/');
     }
 }

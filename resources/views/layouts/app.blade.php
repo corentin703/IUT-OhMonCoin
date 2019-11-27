@@ -53,7 +53,6 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('user.edit', Auth::id()) }}">Espace utilisateur</a>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -64,6 +63,10 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
+
+                                    <div class="dropdown-divider"></div>
+
+                                    <a class="dropdown-item" href="{{ route('user.edit', Auth::id()) }}">Paramètres utilisateur</a>
                                 </div>
                             </li>
                         @endguest
@@ -95,6 +98,15 @@
         @yield('javascript')
     </div>
 </body>
+
+<footer>
+    <nav class="navbar navbar-dark bg-dark justify-content-center footer">
+        <a style="text-align: center; color: #FFFFFF;">
+            Connecté en tant que {{ Auth::user()->name }}
+        </a>
+    </nav>
+</footer>
+
 </html>
 
 

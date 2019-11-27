@@ -24,7 +24,8 @@ class AdvertPolicy
     }
 
     /**
-     * Determine whether the user can view any adverts.
+     * Determine whether the user can view any adverts
+     * (for general and both by User & by Category).
      *
      * @param  \App\User  $user
      * @return mixed

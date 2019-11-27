@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Advert;
+use App\Category;
 use App\Picture;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -76,5 +77,10 @@ class AdvertRepository extends Repository
     public function getByUser(User $user)
     {
         return $this->model->all()->where('user', $user);
+    }
+
+    public function getByCategory(Category $category)
+    {
+        return $this->model->all()->where('category', $category);
     }
 }

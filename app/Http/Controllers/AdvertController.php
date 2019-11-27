@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Advert;
+use App\Category;
 use App\Repositories\AdvertFollowRepository;
 use App\Repositories\AdvertRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 
@@ -30,20 +30,45 @@ class AdvertController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user = null)
+    public function index()
     {
-        if ($user)
-        {
-            return view('advert.index', [
-                'title' => "Annonces de " . $user->name,
-                'adverts' => $this->advertRepository->getByUser($user),
-                'canCreate' => (Auth::id() === $user->id),
-            ]);
-        }
-
         return view('advert.index', [
             'title' => "Annonces actuelles",
-            'adverts' => $this->advertRepository->all(),
+            'adverts' => $this->advertRepository->all()->reverse(),
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource by Category.
+     *
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function indexByCategory(Category $category)
+    {
+        $this->authorize('view-any', Advert::class);
+
+        return view('advert.index', [
+            'title' => "Annonces de catégorie " . $category->name,
+            'adverts' => $this->advertRepository->getByCategory($category)->reverse(),
+            'canCreate' => false,
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource by User.
+     *
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function indexByUser(User $user)
+    {
+        $this->authorize('view-any', Advert::class);
+
+        return view('advert.index', [
+            'title' => "Annonces de " . $user->name,
+            'adverts' => $this->advertRepository->getByUser($user)->reverse(),
+            'canCreate' => (Auth::id() === $user->id),
         ]);
     }
 
@@ -55,7 +80,6 @@ class AdvertController extends Controller
      */
     public function store(Request $request)
     {
-//        if (Gate::allows('advert-create')) {
         $data = $request->all();
 
         if ($request->hasFile('pictures'))
@@ -64,9 +88,6 @@ class AdvertController extends Controller
         $this->advertRepository->create($data);
 
         return Redirect::route('home');
-//        }
-//        else
-//            return abort(403);
     }
 
     /**
@@ -90,15 +111,10 @@ class AdvertController extends Controller
      */
     public function edit(Advert $advert)
     {
-//        if (Gate::allows('advert-update', $advert))
-//        {
-        return view('advert.edit', [
+        return Response::view('advert.edit', [
             'advert' => $advert,
             'pictures' => $advert->pictures,
         ]);
-//        }
-//        else
-//            return abort(403);
     }
 
     /**
@@ -110,8 +126,6 @@ class AdvertController extends Controller
      */
     public function update(Request $request, Advert $advert)
     {
-//        if (Gate::allows('advert-update', $advert))
-//        {
         $data = $request->all();
 
         if ($request->hasFile('pictures'))
@@ -120,30 +134,24 @@ class AdvertController extends Controller
         $this->advertRepository->update($data, $advert);
 
         return Redirect::back();
-//        }
-//        else
-//            return abort(403);
     }
 
     /**
      * Follow the specified resource in storage.
      *
-     * @param  \App\Advert  $advert
-     * @return \Illuminate\Http\JsonResponse
+     * @param \App\Advert $advert
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function follow(Advert $advert)
     {
-//        if (Gate::allows('advert-follow', $advert))
-//        {
-        $this->authorize('follow', Advert::class);
+        $this->authorize('follow', $advert);
 
         $advertFollow = $this->advertFollowRepository->getByUserAndModel(Auth::user(), $advert);
 
         if ($advertFollow)
         {
             $this->advertFollowRepository->delete($advertFollow);
-
-            return Response::json(['follow' => false], 200);
         }
         else
         {
@@ -151,13 +159,9 @@ class AdvertController extends Controller
                 'advert' => $advert,
                 'user' => Auth::user(),
             ]);
-
-            return Response::json(['follow' => true], 200);
         }
-//
-//        }
-//        else
-//            return abort(403);
+
+        return Redirect::back();
     }
 
     /**
@@ -168,13 +172,8 @@ class AdvertController extends Controller
      */
     public function destroy(Advert $advert)
     {
-//        if (Gate::allows('advert-update', $advert))
-//        {
         $this->advertRepository->delete($advert);
 
         return Redirect::route('home');
-//        }
-//        else
-//            return abort(403);
     }
 }

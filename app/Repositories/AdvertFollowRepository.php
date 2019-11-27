@@ -15,8 +15,16 @@ class AdvertFollowRepository extends Repository
         parent::__construct($model);
     }
 
+    public function getFollowState(User $user, Advert $advert) : bool
+    {
+        if ($this->getByUserAndModel($user, $advert))
+            return true;
+        else
+            return false;
+    }
+
     public function getByUserAndModel(User $user, Advert $advert)
     {
-        return $user->follow()->where('advert', $advert)->get();
+        return $this->getModelInstance($user->follow->where('advert_id', $advert->id))->first();
     }
 }

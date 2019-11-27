@@ -11100,6 +11100,12 @@ a.text-dark:focus {
   }
 }
 
+li,
+.stretched-link,
+.interactable {
+  z-index: 1;
+}
+
 .dock_group {
   position: -webkit-sticky;
   position: sticky;

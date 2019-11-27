@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+    @inject('advertFollow', 'App\Repositories\AdvertFollowRepository')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -21,13 +24,20 @@
                             <div class="row">
                                 <div class="@if ($advert->pictures) col-6 @else col-12 @endif">
                                     <a href="{{ route('advert.show', $advert->id) }}" class="stretched-link"><h4>{{ $advert->title }}</h4></a>
+                                    <div class="btn-group interactable">
+                                        <h5>
+                                            <a class="font-weight-bold" href="{{ route('advert.indexByCategory', $advert->category) }}">Catégorie {{ $advert->category->name }} </a>
+                                            par
+                                            <a class="font-weight-bold" href="{{ route('advert.indexByUser', $advert->user) }}"> {{ $advert->user->name }}</a>
+                                        </h5>
+                                    </div>
                                     <p>{{ $advert->content }}</p>
-                                    <div class="btn-group" role="group" style="z-index: 1">
+                                    <div class="btn-group interactable" role="group">
                                     @can('update', $advert)
                                         <button class="btn btn-secondary" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">Mettre à jour</button>
                                     @elsecan('follow', $advert)
-                                        <button class="btn btn-info" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">
-                                            Suivre
+                                        <button class="btn btn-info" onclick="window.location = '{{ route('advert.follow', $advert->id) }}'">
+                                            @if ($advertFollow->getFollowState(Auth::user(), $advert)) Suivre @else Ne plus suivre @endif
                                         </button>
                                     @endcan
                                     </div>
