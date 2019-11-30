@@ -11122,6 +11122,10 @@ li,
   border-radius: 5px;
 }
 
+nav {
+  z-index: 5;
+}
+
 textarea {
   min-height: 100px;
 }

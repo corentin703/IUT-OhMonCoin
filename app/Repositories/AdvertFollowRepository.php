@@ -17,10 +17,10 @@ class AdvertFollowRepository extends Repository
 
     public function getFollowState(User $user, Advert $advert) : bool
     {
-        if ($this->getByUserAndModel($user, $advert))
-            return true;
-        else
+        if (is_null($this->getByUserAndModel($user, $advert)))
             return false;
+        else
+            return true;
     }
 
     public function getByUserAndModel(User $user, Advert $advert)
@@ -28,16 +28,14 @@ class AdvertFollowRepository extends Repository
         return $this->getModelInstance($user->follow->where('advert_id', $advert->id))->first();
     }
 
-    public function getAdvertByUser(User $user)
+    public function getFollowedByUser(User $user)
     {
-        $advertFollows = $this->getModelInstance($user->follow);
-
         $adverts = [];
-        foreach ($advertFollows as $advertFollow)
+        foreach ($user->follow as $follow)
         {
-            $adverts[] = $advertFollow->advert;
+            $adverts[] = $follow->advert;
         }
 
-        return $adverts;
+        return collect($adverts);
     }
 }

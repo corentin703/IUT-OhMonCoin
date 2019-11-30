@@ -27,6 +27,10 @@ li, .stretched-link, .interactable {
     }
 }
 
+nav {
+    z-index: 5;
+}
+
 textarea {
     min-height: 100px;
 }

@@ -36,8 +36,9 @@
                                     @can('update', $advert)
                                         <button class="btn btn-secondary" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">Mettre à jour</button>
                                     @elsecan('follow', $advert)
-                                        <button class="btn btn-info" onclick="window.location = '{{ route('advert.follow', $advert->id) }}'">
-                                            @if ($advertFollow->getFollowState(Auth::user(), $advert)) Suivre @else Ne plus suivre @endif
+{{--                                        <button class="btn btn-info" onclick="window.location = '{{ route('advert.follow', $advert->id) }}'">--}}
+                                        <button class="btn btn-info" onclick="follow({{ $advert->id }}, '{{ csrf_token() }}')">
+                                            @if ($advertFollow->getFollowState(Auth::user(), $advert)) Ne plus suivre @else Suivre @endif
                                         </button>
                                     @endcan
                                     </div>
@@ -86,4 +87,9 @@
     @endcan
 @endif
 
+@endsection
+
+@section('javascript')
+    @parent
+    <script src="{{ asset('js/Advert/follow.js') }}"></script>
 @endsection

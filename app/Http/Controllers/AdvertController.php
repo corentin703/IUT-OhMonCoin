@@ -78,7 +78,7 @@ class AdvertController extends Controller
 
         return view('advert.index', [
             'title' => "Annonces que vous suivez",
-            'adverts' => $this->advertFollowRepository->getAdvertByUser(Auth::user()),
+            'adverts' => $this->advertFollowRepository->getFollowedByUser(Auth::user())->reverse(),
             'canCreate' => false,
         ]);
     }
@@ -151,11 +151,12 @@ class AdvertController extends Controller
      * Follow the specified resource in storage.
      *
      * @param \App\Advert $advert
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function follow(Advert $advert)
+    public function follow(Request $request)
     {
+        $advert = $this->advertRepository->find($request->input('id'));
         $this->authorize('follow', $advert);
 
         $advertFollow = $this->advertFollowRepository->getByUserAndModel(Auth::user(), $advert);
@@ -172,7 +173,7 @@ class AdvertController extends Controller
             ]);
         }
 
-        return Redirect::back();
+        return Response::json(['success' => true], 200);
     }
 
     /**

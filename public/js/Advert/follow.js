@@ -1,13 +1,13 @@
 
-function pictureDelete(id, csrfToken)
+function follow(id, csrfToken)
 {
     $.ajax({
         headers:
         {
             'X-CSRF-TOKEN': csrfToken
         },
-        url: '/picture/' + id,
-        type: "DELETE",
+        url: '/advert/follow',
+        type: "PUT",
         data: 'id=' + id,
         success: function ()
         {

@@ -114,5 +114,6 @@
 @endsection
 
 @section('javascript')
-        <script src="{{ asset('js/Advert/picture.js') }}"></script>
+    @parent
+    <script src="{{ asset('js/Advert/picture.js') }}"></script>
 @endsection
