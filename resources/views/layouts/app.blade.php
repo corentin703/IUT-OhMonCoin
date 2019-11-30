@@ -101,9 +101,7 @@
 
 <footer>
     <nav class="navbar navbar-dark bg-dark justify-content-center footer">
-        <a style="text-align: center; color: #FFFFFF;">
-            Connecté en tant que {{ Auth::user()->name }}
-        </a>
+
     </nav>
 </footer>
 

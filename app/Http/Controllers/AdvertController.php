@@ -72,6 +72,17 @@ class AdvertController extends Controller
         ]);
     }
 
+    public function indexByFollow()
+    {
+//        $this->authorize('viewFollow', User::class);
+
+        return view('advert.index', [
+            'title' => "Annonces que vous suivez",
+            'adverts' => $this->advertFollowRepository->getAdvertByUser(Auth::user()),
+            'canCreate' => false,
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

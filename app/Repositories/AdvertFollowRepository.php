@@ -27,4 +27,17 @@ class AdvertFollowRepository extends Repository
     {
         return $this->getModelInstance($user->follow->where('advert_id', $advert->id))->first();
     }
+
+    public function getAdvertByUser(User $user)
+    {
+        $advertFollows = $this->getModelInstance($user->follow);
+
+        $adverts = [];
+        foreach ($advertFollows as $advertFollow)
+        {
+            $adverts[] = $advertFollow->advert;
+        }
+
+        return $adverts;
+    }
 }

@@ -15,11 +15,12 @@ Auth::routes();
 
 
 // Adverts
+Route::get('/advert/follow', 'AdvertController@indexByFollow')->name('advert.follow');
 Route::resource('/advert', 'AdvertController')
     ->except(['create']);
 Route::get('/advert/user/{user}', 'AdvertController@indexByUser')->name('advert.indexByUser');
 Route::get('/advert/category/{category}', 'AdvertController@indexByCategory')->name('advert.indexByCategory');
-Route::get('/advert/follow/{advert}', 'AdvertController@follow')->name('advert.follow'); // TODO: AJAX avec post (transfert de données, on cherche pas à en obtenir de nouvelles donc pas get)
+//Route::post('/advert/follow', 'AdvertController@follow')->name('advert.follow'); // TODO: AJAX avec post (transfert de données, on cherche pas à en obtenir de nouvelles donc pas get)
 
 
 // Pictures

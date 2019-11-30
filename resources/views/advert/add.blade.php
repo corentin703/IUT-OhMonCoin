@@ -68,8 +68,12 @@
                         <label for="pictures" class="col-md-2 col-form-label text-md-right">Images</label>
 
                         <div class="col-md-9">
-{{--                            <input type="hidden" name="MAX_FILE_SIZE" value="5242880"/> --}}{{-- 5Mb max --}}
-                            <input id="pictures" type="file" class="form-control @error('pictures') is-invalid @enderror" name="pictures[]" autocomplete="off" multiple>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input id="pictures" type="file" class="custom-file-input @error('pictures') is-invalid @enderror" name="pictures[]" autocomplete="off" multiple data-buttonText="Parcourir">
+                                    <label class="custom-file-label" for="pictures" aria-describedby="pictures">Parcourir</label>
+                                </div>
+                            </div>
 
                             @error('pictures')
                             <span class="invalid-feedback" role="alert">
