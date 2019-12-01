@@ -83,4 +83,9 @@ class AdvertRepository extends Repository
     {
         return $this->model->all()->where('category', $category);
     }
+
+    public function getTrashedByUser(User $user)
+    {
+        return $this->model->onlyTrashed()->where('user_id', $user->id)->get();
+    }
 }

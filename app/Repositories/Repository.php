@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\Advert;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class Repository
@@ -35,9 +36,24 @@ abstract class Repository
         return $this->getModelInstance($element)->delete();
     }
 
+    public function restore($element)
+    {
+        return $this->getModelInstance($element)->restore();
+    }
+
     public function find($element) : ?Model
     {
         return $this->getModelInstance($element);
+    }
+
+    public function findTrashed(int $element) :?Model
+    {
+        $element = $this->model->onlyTrashed()->where('id', $element)->get()->first();
+
+        if (is_null($element))
+            abort(404);
+
+        return $element;
     }
 
     public function show($element) : ?Model

@@ -47,6 +47,18 @@ class Advert extends Model
         return $this->hasMany('App\Picture');
     }
 
+//    public function getPictures()
+//    {
+//        $pictures = $this->pictures()->get();
+//
+//        dd('OK');
+//
+//        if ($this->isTrashed())
+//            $pictures = $this->pictures()->withTrashed();
+//
+//        return $pictures;
+//    }
+
     public function follower()
     {
         return $this->hasMany('App\AdvertFollow');

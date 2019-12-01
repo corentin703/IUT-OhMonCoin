@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Advert;
+use App\Observers\AdvertObserver;
+use App\Observers\PictureObserver;
+use App\Observers\UserObserver;
+use App\Picture;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Advert::observe(AdvertObserver::class);
+        Picture::observe(PictureObserver::class);
+        User::observe(UserObserver::class);
     }
 }

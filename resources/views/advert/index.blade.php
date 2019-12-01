@@ -26,9 +26,9 @@
                                     <a href="{{ route('advert.show', $advert->id) }}" class="stretched-link"><h4>{{ $advert->title }}</h4></a>
                                     <div class="btn-group interactable">
                                         <h5>
-                                            <a class="font-weight-bold" href="{{ route('advert.indexByCategory', $advert->category) }}">Catégorie {{ $advert->category->name }} </a>
+                                            <a class="font-weight-bold" href="{{ route('advert.index.category', $advert->category) }}">Catégorie {{ $advert->category->name }} </a>
                                             par
-                                            <a class="font-weight-bold" href="{{ route('advert.indexByUser', $advert->user) }}"> {{ $advert->user->name }}</a>
+                                            <a class="font-weight-bold" href="{{ route('advert.index.user', $advert->user) }}"> {{ $advert->user->name }}</a>
                                         </h5>
                                     </div>
                                     <p>{{ $advert->content }}</p>
@@ -36,7 +36,6 @@
                                     @can('update', $advert)
                                         <button class="btn btn-secondary" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">Mettre à jour</button>
                                     @elsecan('follow', $advert)
-{{--                                        <button class="btn btn-info" onclick="window.location = '{{ route('advert.follow', $advert->id) }}'">--}}
                                         <button class="btn btn-info" onclick="follow({{ $advert->id }}, '{{ csrf_token() }}')">
                                             @if ($advertFollow->getFollowState(Auth::user(), $advert)) Ne plus suivre @else Suivre @endif
                                         </button>

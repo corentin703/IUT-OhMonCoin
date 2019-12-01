@@ -47,22 +47,6 @@ class AdvertPolicy
     }
 
     /**
-     * Determine whether the user can follow the advert.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Advert  $advert
-     * @return mixed
-     */
-    public function follow(User $user, Advert $advert)
-    {
-        if ($user->role != $this->roleRepository->getRoleByName('suspended'))
-            if ($user->id != $advert->user->id)
-                return true;
-
-        return false;
-    }
-
-    /**
      * Determine whether the user can create adverts.
      *
      * @param  \App\User  $user
@@ -138,6 +122,22 @@ class AdvertPolicy
     {
         if ($user->role === $this->roleRepository->getRoleByName('admin'))
             return true;
+
+        return false;
+    }
+
+    /**
+     * Determine whether the user can follow the advert.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Advert  $advert
+     * @return mixed
+     */
+    public function follow(User $user, Advert $advert)
+    {
+        if ($user->role != $this->roleRepository->getRoleByName('suspended'))
+            if ($user->id != $advert->user->id)
+                return true;
 
         return false;
     }

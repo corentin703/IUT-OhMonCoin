@@ -74,12 +74,17 @@ class AdvertController extends Controller
 
     public function indexByFollow()
     {
-//        $this->authorize('viewFollow', User::class);
-
         return view('advert.index', [
             'title' => "Annonces que vous suivez",
             'adverts' => $this->advertFollowRepository->getFollowedByUser(Auth::user())->reverse(),
             'canCreate' => false,
+        ]);
+    }
+
+    public function indexTrashed()
+    {
+        return view('advert.restore', [
+            'adverts' => $this->advertRepository->getTrashedByUser(Auth::user())->reverse(),
         ]);
     }
 
@@ -154,9 +159,8 @@ class AdvertController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function follow(Request $request)
+    public function follow(Request $request, Advert $advert)
     {
-        $advert = $this->advertRepository->find($request->input('id'));
         $this->authorize('follow', $advert);
 
         $advertFollow = $this->advertFollowRepository->getByUserAndModel(Auth::user(), $advert);
@@ -187,5 +191,14 @@ class AdvertController extends Controller
         $this->advertRepository->delete($advert);
 
         return Redirect::route('home');
+    }
+
+    public function restore($advert)
+    {
+        $advert = $this->advertRepository->findTrashed($advert);
+
+        $this->advertRepository->restore($advert);
+
+        return Redirect::back();
     }
 }
