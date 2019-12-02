@@ -105,9 +105,6 @@ class AdvertPolicy
         if ($user->id === $advert->user_id)
             return true;
 
-        if ($user->role === $this->roleRepository->getRoleByName('admin'))
-            return true;
-
         return false;
     }
 

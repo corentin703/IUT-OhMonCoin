@@ -3,7 +3,7 @@
 
 <div id="btnDock" class="btn-group dropup dock_group">
     <div>
-        <button id="btnAddAdvert" class="btn btn-primary" onclick="$('#addAdvert').modal()">Ajouter une annonce</button>
+        <button id="btnAddAdvert" class="btn btn-success" onclick="$('#addAdvert').modal()">Ajouter une annonce</button>
     </div>
 </div>
 

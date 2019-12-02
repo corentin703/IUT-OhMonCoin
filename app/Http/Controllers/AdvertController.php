@@ -51,7 +51,7 @@ class AdvertController extends Controller
         return view('advert.index', [
             'title' => "Annonces de catégorie " . $category->name,
             'adverts' => $this->advertRepository->getByCategory($category)->reverse(),
-            'canCreate' => false,
+            'isCurrentUserPage' => false,
         ]);
     }
 
@@ -59,7 +59,6 @@ class AdvertController extends Controller
      * Display a listing of the resource by User.
      *
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function indexByUser(User $user)
     {
@@ -68,7 +67,7 @@ class AdvertController extends Controller
         return view('advert.index', [
             'title' => "Annonces de " . $user->name,
             'adverts' => $this->advertRepository->getByUser($user)->reverse(),
-            'canCreate' => (Auth::id() === $user->id),
+            'isCurrentUserPage' => (Auth::id() === $user->id),
         ]);
     }
 
@@ -77,7 +76,7 @@ class AdvertController extends Controller
         return view('advert.index', [
             'title' => "Annonces que vous suivez",
             'adverts' => $this->advertFollowRepository->getFollowedByUser(Auth::user())->reverse(),
-            'canCreate' => false,
+            'isCurrentUserPage' => false,
         ]);
     }
 
@@ -104,6 +103,22 @@ class AdvertController extends Controller
         $this->advertRepository->create($data);
 
         return Redirect::route('home');
+    }
+
+    /**
+     * Search a resource in storage from given string.
+     *
+     * @param  string $string
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request, $string = null)
+    {
+        if ($string === null)
+            $string = $request->input('search');
+
+        return view('advert.search', [
+            'adverts' => $this->advertRepository->search($string),
+        ]);
     }
 
     /**
@@ -193,9 +208,17 @@ class AdvertController extends Controller
         return Redirect::route('home');
     }
 
-    public function restore($advert)
+    /**
+     * Restore the specified resource from storage.
+     *
+     * @param int $advert
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore(int $advert)
     {
         $advert = $this->advertRepository->findTrashed($advert);
+
+        $this->authorize('restore', $advert);
 
         $this->advertRepository->restore($advert);
 

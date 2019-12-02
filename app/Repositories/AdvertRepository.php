@@ -26,6 +26,16 @@ class AdvertRepository extends Repository
         $this->pictureRepository = $pictureRepository;
     }
 
+    public function search(string $string)
+    {
+        $adverts = $this->model::where('title', 'LIKE', '%' . $string . '%')->get();
+
+        if (count($adverts) == 0)
+            return null;
+
+        return $adverts;
+    }
+
     public function create(array $data): ?Model
     {
         $validation = Validator::make($data, [
