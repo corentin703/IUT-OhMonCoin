@@ -116,8 +116,27 @@ class AdvertController extends Controller
         if ($string === null)
             $string = $request->input('search');
 
+        $category = $request->input('category');
+
         return view('advert.search', [
-            'adverts' => $this->advertRepository->search($string),
+            'adverts' => $this->advertRepository->search($string, $category),
+            'stringSearched' => $string,
+            'categorySearched' => $category,
+        ]);
+    }
+
+    /**
+     * Search a resource in storage from given string.
+     *
+     * @param  string $string
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByCategory($category, $string)
+    {
+        return view('advert.search', [
+            'adverts' => $this->advertRepository->search($string, $category),
+            'stringSearched' => $string,
+            'categorySearched' => $category,
         ]);
     }
 

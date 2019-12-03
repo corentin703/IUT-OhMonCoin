@@ -26,9 +26,15 @@ class AdvertRepository extends Repository
         $this->pictureRepository = $pictureRepository;
     }
 
-    public function search(string $string)
+    public function search($string, $category = null)
     {
-        $adverts = $this->model::where('title', 'LIKE', '%' . $string . '%')->get();
+        if ($category == 0 || $category === null)
+            $adverts = $this->model::where('title', 'LIKE', '%' . $string . '%')->get();
+        else
+        {
+            $category = $this->categoryRepository->find($category);
+            $adverts = $this->model::where('title', 'LIKE', '%' . $string . '%')->where('category_id', $category->id)->get();
+        }
 
         if (count($adverts) == 0)
             return null;
