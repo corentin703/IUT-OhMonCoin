@@ -65,7 +65,7 @@
                                             </div>
                                             @else
                                                  <p class="text-center">
-                                                     L'utilisateur n'a pas mis d'image
+                                                     Aucune image sur cette annonce
                                                  </p>
                                             @endif
                                         </div>
