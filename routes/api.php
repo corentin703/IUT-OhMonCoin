@@ -18,14 +18,14 @@ Route::middleware('auth:api')->get('/user/auth', function (Request $request) {
 });
 
 
-//Route::middleware('auth:api')->group(function ()
-//{
-    Route::resource('/advert', 'API\AdvertController');
-    Route::resource('/category', 'API\CategoryController');
-    Route::resource('/message', 'API\MessageController');
-    Route::resource('/picture', 'API\PictureController');
-//});
-
-Route::resource('/user', 'API\UserController');
+////Route::middleware('auth:api')->group(function ()
+////{
+//    Route::resource('/advert', 'API\AdvertController');
+//    Route::resource('/category', 'API\CategoryController');
+//    Route::resource('/message', 'API\MessageController');
+//    Route::resource('/picture', 'API\PictureController');
+////});
+//
+//Route::resource('/user', 'API\UserController');
 
 

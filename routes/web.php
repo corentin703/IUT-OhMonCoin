@@ -29,6 +29,9 @@ Route::get('/advert/category/{category?}/search/{string?}', 'AdvertController@se
 Route::resource('/picture', 'PictureController')
     ->only(['store', 'destroy']);
 
+// Messages
+Route::put('/advert/{advert}/message', 'MessageController@create')->name('advert.message.create');
+
 
 // Users
 Route::resource('/user', 'UserController');

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Advert extends Model
 {
@@ -42,22 +43,41 @@ class Advert extends Model
         $this->attributes['user_id'] = $value->id;
     }
 
+    public function messages()
+    {
+        return $this->hasMany('App\Message');
+    }
+
+    public function getMessagesAttribute()
+    {
+        $messages = $this->messages()->get();
+
+        $sortedMessages = [];
+        foreach ($messages as $message)
+        {
+            if ($message->receiver->id == Auth::id())
+                $sortedMessages[$message->sender->id][] = $message;
+            else
+                $sortedMessages[$message->receiver->id][] = $message;
+        }
+
+        return $sortedMessages;
+    }
+
     public function pictures()
     {
         return $this->hasMany('App\Picture');
     }
 
-//    public function getPictures()
-//    {
-//        $pictures = $this->pictures()->get();
-//
-//        dd('OK');
-//
-//        if ($this->isTrashed())
-//            $pictures = $this->pictures()->withTrashed();
-//
-//        return $pictures;
-//    }
+    public function getPicturesAttribute()
+    {
+        $pictures = $this->pictures()->get();
+
+        if ($this->trashed())
+            $pictures = $this->pictures()->withTrashed();
+
+        return $pictures;
+    }
 
     public function follower()
     {

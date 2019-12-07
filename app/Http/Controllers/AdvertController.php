@@ -6,6 +6,7 @@ use App\Advert;
 use App\Category;
 use App\Repositories\AdvertFollowRepository;
 use App\Repositories\AdvertRepository;
+use App\Repositories\MessageRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,11 +17,13 @@ class AdvertController extends Controller
 {
     private $advertRepository;
     private $advertFollowRepository;
+    private $messageRepository;
 
-    public function __construct(AdvertRepository $advertRepository, AdvertFollowRepository $advertFollowRepository)
+    public function __construct(AdvertRepository $advertRepository, AdvertFollowRepository $advertFollowRepository, MessageRepository $messageRepository)
     {
         $this->advertRepository = $advertRepository;
         $this->advertFollowRepository = $advertFollowRepository;
+        $this->messageRepository = $messageRepository;
 
         $this->authorizeResource(Advert::class, 'advert');
     }
@@ -148,8 +151,18 @@ class AdvertController extends Controller
      */
     public function show(Advert $advert)
     {
+//        return Response::json($advert->pictures);
+
+        if ($advert->user->id === Auth::id())
+            $messages = $advert->messages;
+        else
+            $messages = $this->messageRepository->getByAdvertAndUser($advert, Auth::id());
+
+        $messages = $advert->messages; // !!!
+
         return view('advert.show', [
             'advert' => $advert,
+            'conversations' => $messages,
         ]);
     }
 

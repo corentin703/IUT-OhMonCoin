@@ -1,6 +1,8 @@
 
 @extends('layouts.app')
 
+@inject('advertFollow', 'App\Repositories\AdvertFollowRepository')
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -39,15 +41,50 @@
                             </p>
                         @endif
                     </div>
-                    @can('advert-update', $advert)
+                    @auth
                         <div class="card-footer">
-                            <button class="btn btn-secondary" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">Mettre à jour</button>
+                            @can('update', $advert)
+                                <button class="btn btn-secondary" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">Mettre à jour</button>
+                            @elsecan('follow', $advert)
+                                <button class="btn btn-info" onclick="follow({{ $advert->id }}, '{{ csrf_token() }}')">
+                                    @if ($advertFollow->getFollowState(Auth::user(), $advert)) Ne plus suivre @else Suivre @endif
+                                </button>
+                            @endcan
                         </div>
-                    @endcan
+                    @endauth
                 </div>
+
+                <br/>
+
+{{--                <div class="card">--}}
+{{--                    <div class="card-header">--}}
+{{--                        <div class="card-title">Messages</div>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-body">--}}
+
+{{--                    </div>--}}
+{{--                    <div class="card-footer">--}}
+{{--                        <form method="GET" action="{{ route('advert.search') }}">--}}
+{{--                            <div class="input-group">--}}
+{{--                                <textarea id="search" type="text" class="form-control" placeholder="Intéressé ? Écrivez donc un message !" name="message" required aria-label="message" aria-describedby="search"></textarea>--}}
+{{--                                <div class="input-group-append">--}}
+{{--                                    <button type="submit" class="btn btn-success">Envoyer</button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </form>--}}
+{{--                    </div>--}}
+
+{{--                </div>--}}
+                @include('advert.messages')
+
             </div>
         </div>
     </div>
 
 
+@endsection
+
+@section('javascript')
+    @parent
+    <script src="{{ asset('js/Advert/follow.js') }}"></script>
 @endsection
