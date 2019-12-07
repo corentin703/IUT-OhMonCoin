@@ -18,20 +18,20 @@
     </head>
 
     <body>
-        <div id="app">
-            <div id="header">
-                @include('layouts.header')
-            </div>
+        <div id="header">
+            @include('layouts.header')
+        </div>
 
-{{--            @if ($errors->any())--}}
-{{--                <div class="alert alert-danger">--}}
-{{--                    <ul>--}}
-{{--                        @foreach ($errors->all() as $error)--}}
-{{--                            <li>{{ $error }}</li>--}}
-{{--                        @endforeach--}}
-{{--                    </ul>--}}
-{{--                </div>--}}
-{{--            @endif--}}
+        <div id="app" class="app">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <main class="py-4">
                 @yield('content')

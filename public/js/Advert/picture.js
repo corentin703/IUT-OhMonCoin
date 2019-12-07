@@ -6,7 +6,7 @@ function pictureDelete(id, csrfToken)
         {
             'X-CSRF-TOKEN': csrfToken
         },
-        url: '/picture/' + id,
+        url: '/pictures/' + id,
         type: "DELETE",
         data: 'id=' + id,
         success: function ()

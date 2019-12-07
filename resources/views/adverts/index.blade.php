@@ -23,18 +23,18 @@
                                 <li class="list-group-item">
                                     <div class="row">
                                         <div class="@if ($advert->pictures) col-6 @else col-12 @endif">
-                                            <a href="{{ route('advert.show', $advert->id) }}" class="stretched-link"><h4>{{ $advert->title }}</h4></a>
+                                            <a href="{{ route('adverts.show', $advert->id) }}" class="stretched-link"><h4>{{ $advert->title }}</h4></a>
                                             <div class="btn-group interactable">
                                                 <h5>
-                                                    <a class="font-weight-bold" href="{{ route('advert.index.category', $advert->category) }}">Catégorie {{ $advert->category->name }} </a>
+                                                    <a class="font-weight-bold" href="{{ route('categories.show', $advert->category) }}">Catégorie {{ $advert->category->name }} </a>
                                                     par
-                                                    <a class="font-weight-bold" href="{{ route('advert.index.user', $advert->user) }}"> {{ $advert->user->name }}</a>
+                                                    <a class="font-weight-bold" href="{{ route('users.adverts', $advert->user) }}"> {{ $advert->user->name }}</a>
                                                 </h5>
                                             </div>
                                             <p>{{ $advert->content }}</p>
                                             <div class="btn-group interactable" role="group">
                                             @can('update', $advert)
-                                                <button class="btn btn-secondary" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">Mettre à jour</button>
+                                                <button class="btn btn-secondary" onclick="window.location = '{{ route('adverts.edit', $advert->id) }}'">Mettre à jour</button>
                                             @elsecan('follow', $advert)
                                                 <button class="btn btn-info" onclick="follow({{ $advert->id }}, '{{ csrf_token() }}')">
                                                     @if ($advertFollow->getFollowState(Auth::user(), $advert)) Ne plus suivre @else Suivre @endif
@@ -80,7 +80,7 @@
                     </div>
                     @if (isset($isCurrentUserPage) && $isCurrentUserPage)
                         <div class="card-header">
-                            <button class="btn btn-danger" onclick="window.location = '{{ route('advert.index.trashed') }}'">Restaurer des annonces supprimées</button>
+                            <button class="btn btn-danger" onclick="window.location = '{{ route('adverts.index.trashed') }}'">Restaurer des annonces supprimées</button>
                         </div>
                     @endif
                 </div>
@@ -90,7 +90,7 @@
 
     @if ((isset($isCurrentUserPage) && $isCurrentUserPage) || !isset($isCurrentUserPage))
         @can('create', App\Advert::class)
-            @include('advert.add')
+            @include('adverts.add')
         @endcan
     @endif
 

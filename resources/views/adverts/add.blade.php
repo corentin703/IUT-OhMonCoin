@@ -9,7 +9,7 @@
 
 <div class="modal fade" id="addAdvert" tabindex="-1" role="dialog" aria-labelledby="addAdvert" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <form method="POST" action="{{ route('advert.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('adverts.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">

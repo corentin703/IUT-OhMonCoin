@@ -17,7 +17,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <form method="POST" action="/advert/{{ $advert->id }}">
+            <form method="POST" action="{{ route('adverts.update', $advert->id) }}">
                 @csrf
                 <div class="card">
                     <div class="card-header">Édition d'annonce</div>
@@ -87,9 +87,9 @@
                             @endif
                         @endforeach
 
-                        <form method="POST" action="{{ route('picture.store') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('pictures.store') }}" enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="advert_id" value="{{ $advert->id }}"/>
+                            <input type="hidden" name="advert" value="{{ $advert->id }}"/>
                             <input id="pictures" type="file" class="form-control @error('pictures') is-invalid @enderror" name="pictures[]" title="Ajouter une ou plusieurs image(s)" autocomplete="off" required multiple style="margin-top: 2%">
                             <button type="submit" class="btn btn-primary" style="margin-top: 2%">Soumettre</button>
 
@@ -109,7 +109,7 @@
         </div>
     </div>
 
-    @include('advert.deleteConfirm')
+    @include('adverts.deleteConfirm')
 
 @endsection
 

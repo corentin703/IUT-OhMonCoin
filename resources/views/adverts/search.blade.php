@@ -21,12 +21,12 @@
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="@if ($advert->pictures) col-6 @else col-12 @endif">
-                                        <a href="{{ route('advert.show', $advert->id) }}" class="stretched-link"><h4>{{ $advert->title }}</h4></a>
+                                        <a href="{{ route('adverts.show', $advert->id) }}" class="stretched-link"><h4>{{ $advert->title }}</h4></a>
                                         <div class="btn-group interactable">
                                             <h5>
-                                                <a class="font-weight-bold" href="{{ route('advert.index.category', $advert->category) }}">Catégorie {{ $advert->category->name }} </a>
+                                                <a class="font-weight-bold" href="{{ route('categories.show', $advert->category) }}">Catégorie {{ $advert->category->name }} </a>
                                                 par
-                                                <a class="font-weight-bold" href="{{ route('advert.index.user', $advert->user) }}"> {{ $advert->user->name }}</a>
+                                                <a class="font-weight-bold" href="{{ route('users.adverts', $advert->user) }}"> {{ $advert->user->name }}</a>
                                             </h5>
                                         </div>
                                         <p>{{ $advert->content }}</p>

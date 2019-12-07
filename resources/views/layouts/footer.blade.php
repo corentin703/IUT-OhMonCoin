@@ -2,8 +2,8 @@
 
 @inject('categories', 'App\Repositories\CategoryRepository')
 
-<nav class="navbar navbar-dark bg-dark justify-content-center footer">
-    <form method="GET" action="{{ route('advert.search') }}" class="w-50">
+<nav class="navbar navbar-dark bg-dark justify-content-center">
+    <form method="GET" action="{{ route('adverts.index') }}" class="w-50">
         <div class="input-group row">
             <div class="input-group-prepend">
                 <span class="input-group-text">Rechercher dans</span>

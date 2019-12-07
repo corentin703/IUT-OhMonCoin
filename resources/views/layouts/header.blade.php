@@ -31,7 +31,7 @@
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         @foreach($categories->all() as $category)
-                            <a class="dropdown-item" href="{{ route('advert.index.category', $category->id) }}">{{ $category->name }}</a>
+                            <a class="dropdown-item" href="{{ route('categories.show', $category->id) }}">{{ $category->name }}</a>
                         @endforeach
                     </div>
                 </li>
@@ -54,8 +54,8 @@
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
-                            <a class="dropdown-item" href="{{ route('advert.index.follow') }}">Annonces suivies</a>
-                            <a class="dropdown-item" href="{{ route('advert.index.user', Auth::id()) }}">Mes annonces</a>
+                            <a class="dropdown-item" href="{{ route('users.adverts', Auth::id()) . '?followed=true' }}">Annonces suivies</a>
+                            <a class="dropdown-item" href="{{ route('users.adverts', Auth::id()) }}">Mes annonces</a>
 
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
@@ -69,7 +69,7 @@
 
                             <div class="dropdown-divider"></div>
 
-                            <a class="dropdown-item" href="{{ route('user.edit', Auth::id()) }}">Paramètres utilisateur</a>
+                            <a class="dropdown-item" href="{{ route('users.edit', Auth::id()) }}">Paramètres utilisateur</a>
                         </div>
                     </li>
                 @endguest

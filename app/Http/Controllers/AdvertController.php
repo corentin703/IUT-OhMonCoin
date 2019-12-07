@@ -32,61 +32,39 @@ class AdvertController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('advert.index', [
+        $string = $request->input('search');
+        $category = $request->input('category');
+
+        if ($category || $string)
+        {
+            return view('adverts.search', [
+                'adverts' => $this->advertRepository->search([
+                    'category' => $category,
+                    'string' => $string,
+                ]),
+                'stringSearched' => $string,
+                'categorySearched' => $category,
+            ]);
+        }
+
+        return view('adverts.index', [
             'title' => "Annonces actuelles",
             'adverts' => $this->advertRepository->all()->reverse(),
         ]);
     }
 
     /**
-     * Display a listing of the resource by Category.
+     * Display a listing of the resources which have been trashed.
      *
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function indexByCategory(Category $category)
-    {
-        $this->authorize('view-any', Advert::class);
-
-        return view('advert.index', [
-            'title' => "Annonces de catégorie " . $category->name,
-            'adverts' => $this->advertRepository->getByCategory($category)->reverse(),
-            'isCurrentUserPage' => false,
-        ]);
-    }
-
-    /**
-     * Display a listing of the resource by User.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function indexByUser(User $user)
-    {
-        $this->authorize('view-any', Advert::class);
-
-        return view('advert.index', [
-            'title' => "Annonces de " . $user->name,
-            'adverts' => $this->advertRepository->getByUser($user)->reverse(),
-            'isCurrentUserPage' => (Auth::id() === $user->id),
-        ]);
-    }
-
-    public function indexByFollow()
-    {
-        return view('advert.index', [
-            'title' => "Annonces que vous suivez",
-            'adverts' => $this->advertFollowRepository->getFollowedByUser(Auth::user())->reverse(),
-            'isCurrentUserPage' => false,
-        ]);
-    }
-
     public function indexTrashed()
     {
-        return view('advert.restore', [
+        return view('adverts.restore', [
             'adverts' => $this->advertRepository->getTrashedByUser(Auth::user())->reverse(),
         ]);
     }
@@ -110,50 +88,13 @@ class AdvertController extends Controller
     }
 
     /**
-     * Search a resource in storage from given string.
-     *
-     * @param  string $string
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request, $string = null)
-    {
-        if ($string === null)
-            $string = $request->input('search');
-
-        $category = $request->input('category');
-
-        return view('advert.search', [
-            'adverts' => $this->advertRepository->search($string, $category),
-            'stringSearched' => $string,
-            'categorySearched' => $category,
-        ]);
-    }
-
-    /**
-     * Search a resource in storage from given string.
-     *
-     * @param  string $string
-     * @return \Illuminate\Http\Response
-     */
-    public function searchByCategory($category, $string)
-    {
-        return view('advert.search', [
-            'adverts' => $this->advertRepository->search($string, $category),
-            'stringSearched' => $string,
-            'categorySearched' => $category,
-        ]);
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Advert  $advert
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(Advert $advert)
     {
-//        return Response::json($advert->pictures);
-
         if ($advert->user->id === Auth::id())
             $messages = $advert->messages;
         else
@@ -161,7 +102,7 @@ class AdvertController extends Controller
 
         $messages = $advert->messages; // !!!
 
-        return view('advert.show', [
+        return view('adverts.show', [
             'advert' => $advert,
             'conversations' => $messages,
         ]);
@@ -175,7 +116,7 @@ class AdvertController extends Controller
      */
     public function edit(Advert $advert)
     {
-        return Response::view('advert.edit', [
+        return Response::view('adverts.edit', [
             'advert' => $advert,
             'pictures' => $advert->pictures,
         ]);
@@ -205,6 +146,7 @@ class AdvertController extends Controller
      *
      * @param \App\Advert $advert
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function follow(Advert $advert)
     {
@@ -243,6 +185,7 @@ class AdvertController extends Controller
      *
      * @param int $advert
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function restore($advert)
     {

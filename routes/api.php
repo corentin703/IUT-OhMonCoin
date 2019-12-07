@@ -17,9 +17,7 @@ Route::middleware('auth:api')->get('/user/auth', function (Request $request) {
     return $request->user();
 });
 
-
-Route::get('/advert/search', 'API\AdvertController@search');
-Route::resource('/advert', 'API\AdvertController');
+Route::resource('/adverts', 'API\AdvertController');
 
 ////Route::middleware('auth:api')->group(function ()
 ////{

@@ -34,7 +34,7 @@ class PictureController extends Controller
      */
     public function store(PictureCreateRequest $request)
     {
-        $advert = $this->advertRepository->find($request->input('advert_id'));
+        $advert = $this->advertRepository->find($request->input('advert'));
 
         $data = $request->all();
 

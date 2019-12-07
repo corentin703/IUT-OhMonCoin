@@ -26,15 +26,18 @@ class AdvertRepository extends Repository
         $this->pictureRepository = $pictureRepository;
     }
 
-    public function search($string, $category = null)
+    public function search($data = [])
     {
-        if ($category == 0 || $category === null)
-            $adverts = $this->model::where('title', 'LIKE', '%' . $string . '%')->get();
-        else
+        if (!isset($data['string']))
+            $data['string'] = "";
+
+        if (isset($data['category']) && $data['category'] != 0)
         {
-            $category = $this->categoryRepository->find($category);
-            $adverts = $this->model::where('title', 'LIKE', '%' . $string . '%')->where('category_id', $category->id)->get();
+            $category = $this->categoryRepository->find($data['category']);
+            $adverts = $this->model::where('title', 'LIKE', '%' . $data['string'] . '%')->where('category_id', $category->id)->get();
         }
+        else
+            $adverts = $this->model::where('title', 'LIKE', '%' . $data['string'] . '%')->get();
 
         if (count($adverts) == 0)
             return null;
@@ -67,23 +70,13 @@ class AdvertRepository extends Repository
 
     public function update(array $data, $advert): ?Model
     {
-        $validation['date'] = Carbon::today();
-        $validation['user'] = Auth::user();
-        $validation['category'] = $this->categoryRepository->find($validation['category']);
+        $data['date'] = Carbon::today();
+        $data['user'] = Auth::user();
+        $data['category'] = $this->categoryRepository->find($data['category']);
 
-        $advert->update($validation);
+        $advert->update($data);
 
         return $advert;
-    }
-
-    public function getByUser(User $user)
-    {
-        return $this->model->all()->where('user', $user);
-    }
-
-    public function getByCategory(Category $category)
-    {
-        return $this->model->all()->where('category', $category);
     }
 
     public function getTrashedByUser(User $user)

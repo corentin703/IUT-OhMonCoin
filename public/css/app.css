@@ -11106,6 +11106,14 @@ li,
   z-index: 1;
 }
 
+.header {
+  min-height: 5vh;
+}
+
+.app {
+  min-height: 95vh;
+}
+
 .dock_group {
   position: -webkit-sticky;
   position: sticky;
@@ -11120,6 +11128,10 @@ li,
   padding: 10px;
   background: rgba(0, 0, 0, 0.05);
   border-radius: 5px;
+}
+
+.header {
+  height: 10vh;
 }
 
 nav {

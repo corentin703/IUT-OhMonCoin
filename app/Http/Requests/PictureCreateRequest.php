@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Picture;
+use App\Advert;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
@@ -15,7 +15,7 @@ class PictureCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::authorize('create', Picture::class)->allowed();
+        return Gate::authorize('create', Advert::findOrFail($this->input('advert')))->allowed();
     }
 
     /**

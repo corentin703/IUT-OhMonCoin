@@ -13,47 +13,28 @@
 
 Auth::routes();
 
-Route::get('/advert/search/{string?}', 'AdvertController@search')->name('advert.search');
-Route::get('/advert/follow', 'AdvertController@indexByFollow')->name('advert.index.follow');
-Route::get('/advert/trashed', 'AdvertController@indexTrashed')->name('advert.index.trashed');
-Route::put('/advert/{advert}/follow', 'AdvertController@follow')->name('advert.follow');
-Route::post('/advert/{advert}/restore', 'AdvertController@restore')->name('advert.restore');
-Route::resource('/advert', 'AdvertController')
+Route::get('/adverts/trashed', 'AdvertController@indexTrashed')->name('adverts.index.trashed');
+Route::post('/adverts/{advert}/follow', 'AdvertController@follow')->name('adverts.follow');
+Route::post('/adverts/{advert}/restore', 'AdvertController@restore')->name('adverts.restore');
+Route::resource('/adverts', 'AdvertController')
     ->except(['create']);
-Route::get('/advert/user/{user}', 'AdvertController@indexByUser')->name('advert.index.user');
-Route::get('/advert/category/{category}', 'AdvertController@indexByCategory')->name('advert.index.category');
-Route::get('/advert/category/{category?}/search/{string?}', 'AdvertController@searchByCategory')->name('advert.category.search');
+Route::get('/categories/{category}', 'CategoryController@show')->name('categories.show');
 
 
 // Pictures
-Route::resource('/picture', 'PictureController')
+Route::resource('/pictures', 'PictureController')
     ->only(['store', 'destroy']);
 
 // Messages
-Route::put('/advert/{advert}/message', 'MessageController@create')->name('advert.message.create');
+Route::post('/adverts/{advert}/message', 'MessageController@create')->name('advert.message.create');
 
 
 // Users
-Route::resource('/user', 'UserController');
-
+//Route::get('/users/{user}/adverts/followed', 'UserController@fetchAdvertsFollowed')->name('users.adverts.followed');
+Route::get('/users/{user}/adverts', 'UserController@fetchAdverts')->name('users.adverts');
+Route::resource('/users', 'UserController');
 
 // Redirections
-Route::redirect('/', route('advert.index'))->name('home');
-
-
-//Route::prefix('/api')->group(function ()
-//{
-//    Route::middleware('auth')->group(function ()
-//    {
-//        Route::resource('/advert', 'API\AdvertController');
-//        Route::resource('/category', 'API\CategoryController');
-//        Route::resource('/message', 'API\MessageController');
-//        Route::resource('/picture', 'API\PictureController');
-//    });
-//
-//    Route::resource('/user', 'API\UserController')
-//        ->except(['create', 'edit']);
-//});
-
+Route::redirect('/', route('adverts.index'))->name('home');
 
 

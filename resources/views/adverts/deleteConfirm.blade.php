@@ -1,6 +1,6 @@
 
 <div id="deleteConfirm" class="modal fade" tabindex="-1" role="dialog">
-    <form method="POST" action="{{ route('advert.destroy', $advert->id) }}">
+    <form method="POST" action="{{ route('adverts.destroy', $advert->id) }}">
         @csrf
         <div class="modal-dialog" role="document">
             <div class="modal-content">

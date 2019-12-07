@@ -13,7 +13,7 @@ class Category extends Model
         'name',
     ];
 
-    public function Adverts()
+    public function adverts()
     {
         return $this->hasMany('App\Advert');
     }

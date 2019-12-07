@@ -44,7 +44,7 @@
                     @auth
                         <div class="card-footer">
                             @can('update', $advert)
-                                <button class="btn btn-secondary" onclick="window.location = '{{ route('advert.edit', $advert->id) }}'">Mettre à jour</button>
+                                <button class="btn btn-secondary" onclick="window.location = '{{ route('adverts.edit', $advert->id) }}'">Mettre à jour</button>
                             @elsecan('follow', $advert)
                                 <button class="btn btn-info" onclick="follow({{ $advert->id }}, '{{ csrf_token() }}')">
                                     @if ($advertFollow->getFollowState(Auth::user(), $advert)) Ne plus suivre @else Suivre @endif
@@ -56,7 +56,7 @@
 
                 <br/>
 
-                @include('advert.messages')
+                @include('adverts.messages')
 
             </div>
         </div>

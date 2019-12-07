@@ -27,9 +27,21 @@ class AdvertController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return AdvertResource::collection($this->advertRepository->all());
+        $string = $request->input('string');
+        $category = $request->input('category');
+
+        $result = $this->advertRepository->search([
+            'category' => $category,
+            'string' => $string,
+        ]);
+
+        if ($result === null)
+            return Response::json('No data found', 404);
+
+
+        return AdvertResource::collection($result);
     }
 
 //    /**
@@ -54,24 +66,6 @@ class AdvertController extends Controller
         return AdvertResource::make($advert);
     }
 
-    /**
-     * Search a resource in storage from given string.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function search(Request $request)
-    {
-        $string = $request->input('search');
-        $category = $request->input('category');
-
-        $result = $this->advertRepository->search($string, $category);
-
-        if ($result === null)
-            return Response::json('No data found', 404);
-
-        return AdvertResource::collection($this->advertRepository->search($string, $category));
-    }
 
 //    /**
 //     * Update the specified resource in storage.

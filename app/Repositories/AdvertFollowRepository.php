@@ -25,17 +25,6 @@ class AdvertFollowRepository extends Repository
 
     public function getByUserAndModel(User $user, Advert $advert)
     {
-        return $this->getModelInstance($user->follow->where('advert_id', $advert->id))->first();
-    }
-
-    public function getFollowedByUser(User $user)
-    {
-        $adverts = [];
-        foreach ($user->follow as $follow)
-        {
-            $adverts[] = $follow->advert;
-        }
-
-        return collect($adverts);
+        return $user->followed()->where('advert_id', $advert->id)->first();
     }
 }

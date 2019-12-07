@@ -6,8 +6,8 @@ function follow(id, csrfToken)
         {
             'X-CSRF-TOKEN': csrfToken
         },
-        url: '/advert/' + id + '/follow',
-        type: "PUT",
+        url: '/adverts/' + id + '/follow',
+        type: "POST",
         data: '',
         success: function ()
         {

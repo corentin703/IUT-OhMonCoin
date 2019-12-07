@@ -62,7 +62,6 @@
                         <input type="hidden" name="receiver" value="{{ $advert->user->id }}"/>
                         <textarea id="messageContent" type="text" class="form-control" placeholder="Intéréssé ? Envoyez-lui donc un message !" name="content" required aria-label="messageContent" aria-describedby="messageContent"></textarea>
                         <div class="input-group-append">
-                            @method('PUT')
                             <button type="submit" class="btn btn-success">Envoyer</button>
                         </div>
                     </div>

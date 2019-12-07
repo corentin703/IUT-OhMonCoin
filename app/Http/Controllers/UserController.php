@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Advert;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -30,6 +32,32 @@ class UserController extends Controller
     public function index()
     {
         return response()->json($this->userRepository->all());
+    }
+
+    /**
+     * Display a listing of the resource by User.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function fetchAdverts(Request $request, User $user)
+    {
+        $this->authorize('view-any', Advert::class);
+
+        if ($request->input('followed') == true)
+        {
+            return view('adverts.index', [
+                'title' => "Annonces que vous suivez",
+                'adverts' => $user->followed->reverse(),
+                'isCurrentUserPage' => false,
+            ]);
+        }
+
+        return view('adverts.index', [
+            'title' => "Annonces de " . $user->name,
+            'adverts' => $user->adverts->reverse(),
+            'isCurrentUserPage' => (Auth::id() === $user->id),
+        ]);
     }
 
     /**

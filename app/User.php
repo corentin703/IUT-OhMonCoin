@@ -49,13 +49,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function adverts()
+    {
+        return $this->hasMany('App\Advert');
+    }
+
     public function role()
     {
         return $this->belongsTo('App\Role');
     }
 
-    public function follow()
+    public function followed()
     {
         return $this->hasMany('App\AdvertFollow');
+    }
+
+    public function getFollowedAttribute()
+    {
+        $adverts = [];
+        foreach ($this->followed()->get() as $follow)
+            $adverts[] = $follow->advert;
+
+        return collect($adverts);
     }
 }
