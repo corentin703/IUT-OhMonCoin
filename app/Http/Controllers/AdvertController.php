@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Advert;
 use App\Category;
+use App\Http\Requests\AdvertUpdateRequest;
 use App\Repositories\AdvertFollowRepository;
 use App\Repositories\AdvertRepository;
 use App\Repositories\MessageRepository;
@@ -187,7 +188,7 @@ class AdvertController extends Controller
      * @param  \App\Advert  $advert
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Advert $advert)
+    public function update(AdvertUpdateRequest $request, Advert $advert)
     {
         $data = $request->all();
 
@@ -204,18 +205,15 @@ class AdvertController extends Controller
      *
      * @param \App\Advert $advert
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function follow(Request $request, Advert $advert)
+    public function follow(Advert $advert)
     {
         $this->authorize('follow', $advert);
 
         $advertFollow = $this->advertFollowRepository->getByUserAndModel(Auth::user(), $advert);
 
         if ($advertFollow)
-        {
             $this->advertFollowRepository->delete($advertFollow);
-        }
         else
         {
             $this->advertFollowRepository->create([
@@ -246,7 +244,7 @@ class AdvertController extends Controller
      * @param int $advert
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore(int $advert)
+    public function restore($advert)
     {
         $advert = $this->advertRepository->findTrashed($advert);
 

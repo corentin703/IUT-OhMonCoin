@@ -15,7 +15,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form method="POST" action="/api/user/{{ $user->id }}">
+            <form method="POST" action="{{ route('user.update', $user->id) }}">
                 @csrf
                 <div class="card">
                     <div class="card-header">Espace personnel</div>

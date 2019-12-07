@@ -15,24 +15,29 @@ class PictureRepository extends Repository
         parent::__construct($model);
     }
 
-    public function create(array $datas, bool $dbControl = false): ?array
+    public function create(array $data, $blockDBControl = false): ?array
     {
-        if ($dbControl)
+        $mustCommit = false;
+
+        if (count($data['pictures']) > 1 && !$blockDBControl)
+        {
+            $mustCommit = true;
             DB::beginTransaction();
+        }
 
         $pictures = [];
 
-        foreach ($datas['pictures'] as $picture)
+        foreach ($data['pictures'] as $picture)
         {
-            $data = [
-                'advert' => $datas['advert'],
+            $pictureData = [
+                'advert' => $data['advert'],
                 'link' => $picture->storeAs('picture', $this->getLastId() . $picture->getExtension(), 'public'),
             ];
 
-            $pictures[] = $this->model->create($data);
+            $pictures[] = $this->model->create($pictureData);
         }
 
-        if ($dbControl)
+        if ($mustCommit)
             DB::commit();
 
         return $pictures;

@@ -44,26 +44,19 @@ class AdvertRepository extends Repository
 
     public function create(array $data): ?Model
     {
-        $validation = Validator::make($data, [
-            'title' => ['required', 'min:8'],
-            'category' => ['required', 'exists:categories,id'],
-            'content' => ['required', 'min:20'],
-            'pictures.*' => ['image', 'mimes:jpeg,bmp,png', 'max:5000'],
-        ])->validate();
-
         DB::beginTransaction();
 
-        $validation['date'] = Carbon::today();
-        $validation['user'] = Auth::user();
-        $validation['category'] = $this->categoryRepository->find($validation['category']);
+        $data['date'] = Carbon::today();
+        $data['user'] = Auth::user();
+        $data['category'] = $this->categoryRepository->find($data['category']);
 
-        $advert = $this->model->create($validation);
+        $advert = $this->model->create($data);
 
-        if (isset($validation['pictures']))
+        if (isset($data['pictures']))
         {
             $this->pictureRepository->create([
                 'advert' => $advert,
-                'pictures' => $validation['pictures'],
+                'pictures' => $data['pictures'],
             ], true);
         }
 
@@ -74,13 +67,6 @@ class AdvertRepository extends Repository
 
     public function update(array $data, $advert): ?Model
     {
-        $validation = Validator::make($data, [
-            'title' => ['required', 'min:8'],
-            'category' => ['required', 'exists:categories,id'],
-            'content' => ['required', 'min:20'],
-            'pictures.*' => ['image', 'mimes:jpeg,bmp,png', 'max:5000'],
-        ])->validate();
-
         $validation['date'] = Carbon::today();
         $validation['user'] = Auth::user();
         $validation['category'] = $this->categoryRepository->find($validation['category']);

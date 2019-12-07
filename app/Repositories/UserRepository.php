@@ -35,25 +35,13 @@ class UserRepository extends Repository
 
     public function update(array $data, $element): ?Model
     {
-        $validation = Validator::make($data, [
-            'name' => ['required', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $element->id],
-            'address' => ['required', 'max:255'],
-            'phone' => ['required', 'string', 'max:255', 'unique:users,phone,' . $element->id],
-        ])->validate();
-
         $user = $this->getModelInstance($element);
 
         if ($data['password'])
-        {
-            $password = Validator::make($data, [
-                'oldPassword' => [new OldPasswordRule(Auth::id())],
-                'password' => ['min:8', 'confirmed'],
-            ])->validate();
+            $user->password = Hash::make($data['password']);
 
-            $user->password = Hash::make($password['password']);
-        }
+        $user->update($data);
 
-        return $user->update($validation);
+        return $user;
     }
 }
