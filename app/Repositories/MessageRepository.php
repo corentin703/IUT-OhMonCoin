@@ -28,6 +28,9 @@ class MessageRepository extends Repository
         if (gettype($user) === "integer")
             $user = $this->userRepository->find($user);
 
-        return $this->model::where('advert_id', $advert->id)->where('sender_id', $user->id)->orWhere('receiver_id', $user->id)->orderBy('created_at')->get();
+        $whereRecieved = $this->model::where('advert_id', $advert->id)->where('receiver_id', $user->id)->orderBy('created_at')->get();
+        $whereSended = $this->model::where('advert_id', $advert->id)->where('sender_id', $user->id)->orderBy('created_at')->get();
+
+        return $whereRecieved->merge($whereSended);
     }
 }

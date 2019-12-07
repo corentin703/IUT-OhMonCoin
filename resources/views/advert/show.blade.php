@@ -56,25 +56,6 @@
 
                 <br/>
 
-{{--                <div class="card">--}}
-{{--                    <div class="card-header">--}}
-{{--                        <div class="card-title">Messages</div>--}}
-{{--                    </div>--}}
-{{--                    <div class="card-body">--}}
-
-{{--                    </div>--}}
-{{--                    <div class="card-footer">--}}
-{{--                        <form method="GET" action="{{ route('advert.search') }}">--}}
-{{--                            <div class="input-group">--}}
-{{--                                <textarea id="search" type="text" class="form-control" placeholder="Intéressé ? Écrivez donc un message !" name="message" required aria-label="message" aria-describedby="search"></textarea>--}}
-{{--                                <div class="input-group-append">--}}
-{{--                                    <button type="submit" class="btn btn-success">Envoyer</button>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </form>--}}
-{{--                    </div>--}}
-
-{{--                </div>--}}
                 @include('advert.messages')
 
             </div>
