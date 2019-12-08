@@ -110,12 +110,15 @@ class AdvertController extends Controller
      */
     public function show(Advert $advert)
     {
-        if ($advert->user->id === Auth::id())
-            $messages = $advert->messages;
+        if (Auth::check())
+        {
+            if ($advert->user->id === Auth::id())
+                $messages = $advert->messages;
+            else
+                $messages = $this->messageRepository->getByAdvertAndUser($advert, Auth::id());
+        }
         else
-            $messages = $this->messageRepository->getByAdvertAndUser($advert, Auth::id());
-
-        $messages = $advert->messages; // !!!
+            $messages = [];
 
         return view('adverts.show', [
             'advert' => $advert,
