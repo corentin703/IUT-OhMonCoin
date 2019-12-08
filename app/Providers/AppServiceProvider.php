@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Advert;
+use App\Category;
 use App\Observers\AdvertObserver;
+use App\Observers\CategoryObserver;
 use App\Observers\PictureObserver;
 use App\Observers\UserObserver;
 use App\Picture;
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Advert::observe(AdvertObserver::class);
+        Category::observe(CategoryObserver::class);
         Picture::observe(PictureObserver::class);
         User::observe(UserObserver::class);
     }

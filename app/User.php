@@ -59,9 +59,16 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role');
     }
 
+    public function setRoleAttribute($value)
+    {
+        $this->attributes['role_id'] = $value->id;
+    }
+
     public function followed()
     {
-        return $this->hasMany('App\AdvertFollow');
+        return $this->belongsToMany('App\Advert', 'advert_follows')->using( 'App\AdvertFollow');
+//        return $this->hasManyThrough('App\Advert', 'App\AdvertFollow');
+//        return $this->hasMany('App\AdvertFollow');
     }
 
     public function getFollowedAttribute()

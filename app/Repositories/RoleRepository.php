@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 use App\Role;
+use App\User;
 use Illuminate\Support\Facades\DB;
 
 class RoleRepository extends Repository
@@ -21,6 +22,12 @@ class RoleRepository extends Repository
             return $this->model->find($id->id);
         else
             return null;
+    }
+
+    public function changeUserRole(User $user, Role $role)
+    {
+        $user->role = $role;
+        $user->save();
     }
 
 }

@@ -81,6 +81,7 @@ class Advert extends Model
 
     public function follower()
     {
-        return $this->hasMany('App\AdvertFollow');
+        return $this->belongsToMany('App\User', 'advert_follows')->using( 'App\AdvertFollow');
+//        return $this->hasMany('App\AdvertFollow');
     }
 }

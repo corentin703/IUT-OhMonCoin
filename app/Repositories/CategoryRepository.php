@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 use App\Category;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class CategoryRepository extends Repository
@@ -21,5 +22,10 @@ class CategoryRepository extends Repository
             return $this->model->find($id->id);
         else
             return null;
+    }
+
+    public function getTrashed()
+    {
+        return $this->model->onlyTrashed()->get();
     }
 }

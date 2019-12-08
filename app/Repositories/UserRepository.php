@@ -27,7 +27,13 @@ class UserRepository extends Repository
         $user = new $this->model();
         $user->fill($data);
         $user->password = Hash::make($data['password']);
-        $user->role_id = $this->roleRepository->getRoleByName('classic')->id;
+//        $user->role_id = $this->roleRepository->getRoleByName('classic')->id;
+
+        if ($this->all()->count() === 0)
+            $user->role = $this->roleRepository->getRoleByName('admin');
+        else
+            $user->role = $this->roleRepository->getRoleByName('classic');
+
         $user->save();
 
         return $user;

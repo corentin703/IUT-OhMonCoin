@@ -31,15 +31,18 @@ class AdvertController extends Controller
     {
         $string = $request->input('string');
         $category = $request->input('category');
+        $followed = $request->input('followed');
+        $user = $request->input('user');
 
         $result = $this->advertRepository->search([
             'category' => $category,
             'string' => $string,
+            'followed' => $followed,
+            'user' => $user,
         ]);
 
         if ($result === null)
             return Response::json('No data found', 404);
-
 
         return AdvertResource::collection($result);
     }

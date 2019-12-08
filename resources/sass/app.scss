@@ -19,6 +19,18 @@ li, .stretched-link, .interactable {
     min-height: 95vh;
 }
 
+.carousel-item {
+    height: 35vh;
+    width: 40vh;
+
+    img {
+        display: block;
+        margin: auto;
+        max-height: 35vh;
+        max-width: 40vh;
+    }
+}
+
 .dock_group {
     position: sticky;
     width: 100%;

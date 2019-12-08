@@ -22,13 +22,13 @@
                             @foreach($adverts as $advert)
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <div class="@if ($advert->pictures) col-6 @else col-12 @endif">
+                                        <div class="@if ($advert->pictures) col-md-6 @else col-md-12 @endif">
                                             <a href="{{ route('adverts.show', $advert->id) }}" class="stretched-link"><h4>{{ $advert->title }}</h4></a>
                                             <div class="btn-group interactable">
                                                 <h5>
                                                     <a class="font-weight-bold" href="{{ route('categories.show', $advert->category) }}">Catégorie {{ $advert->category->name }} </a>
                                                     par
-                                                    <a class="font-weight-bold" href="{{ route('users.adverts', $advert->user) }}"> {{ $advert->user->name }}</a>
+                                                    <a class="font-weight-bold" href="{{ route('adverts.index') . '?user=' . $advert->user }}"> {{ $advert->user->name }}</a>
                                                 </h5>
                                             </div>
                                             <p>{{ $advert->content }}</p>
@@ -42,13 +42,13 @@
                                             @endcan
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-md-6">
                                             @if ($advert->pictures->count())
                                             <div id="carousel-{{ $advert->id }}" class="carousel slide" data-ride="carousel">
                                                 <div class="carousel-inner">
                                                     @foreach($advert->pictures as $key => $picture)
-                                                    <div class="carousel-item @if($key === 0) active @endif">
-                                                        <img src="{{ asset('public/' . $picture->link) }}" class="d-block w-100" alt="...">
+                                                    <div class="carousel-item @if($key === 0) active @endif" style="height: 35vh; width: 21vw;">
+                                                        <img src="{{ asset('public/' . $picture->link) }}" alt="..." style="display: block; max-height: 35vh; max-width: 21vw;">
                                                     </div>
                                                     @endforeach
                                                 </div>
@@ -79,8 +79,8 @@
                         @endif
                     </div>
                     @if (isset($isCurrentUserPage) && $isCurrentUserPage)
-                        <div class="card-header">
-                            <button class="btn btn-danger" onclick="window.location = '{{ route('adverts.index.trashed') }}'">Restaurer des annonces supprimées</button>
+                        <div class="card-footer">
+                            <button class="btn btn-danger" onclick="window.location = '{{ route('trashed.adverts') }}'">Restaurer des annonces supprimées</button>
                         </div>
                     @endif
                 </div>

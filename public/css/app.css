@@ -11114,6 +11114,18 @@ li,
   min-height: 95vh;
 }
 
+.carousel-item {
+  height: 35vh;
+  width: 65vh;
+}
+
+.carousel-item img {
+  display: block;
+  margin: auto;
+  max-height: 35vh;
+  max-width: 65vh;
+}
+
 .dock_group {
   position: -webkit-sticky;
   position: sticky;

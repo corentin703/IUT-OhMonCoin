@@ -2,12 +2,12 @@
 
 namespace App\Policies;
 
-use App\Message;
 use App\Repositories\RoleRepository;
+use App\Role;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class MessagePolicy
+class RolePolicy
 {
     use HandlesAuthorization;
 
@@ -23,18 +23,8 @@ class MessagePolicy
         $this->roleRepository = $roleRepository;
     }
 
-    /**
-     * Determine whether the user can create messages.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
-    public function create(User $user)
+    public function changeRole(User $user)
     {
-        if ($user->role->id === $this->roleRepository->getRoleByName('suspended')->id)
-            return false;
-
-        return true;
+        return $user->role->id === $this->roleRepository->getRoleByName('admin')->id;
     }
-
 }

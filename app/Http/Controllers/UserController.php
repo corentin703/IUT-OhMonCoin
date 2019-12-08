@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Advert;
 use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserRoleUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Repositories\UserRepository;
 use App\User;
@@ -27,47 +28,23 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        return response()->json($this->userRepository->all());
-    }
-
-    /**
-     * Display a listing of the resource by User.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function fetchAdverts(Request $request, User $user)
-    {
-        $this->authorize('view-any', Advert::class);
-
-        if ($request->input('followed') == true)
-        {
-            return view('adverts.index', [
-                'title' => "Annonces que vous suivez",
-                'adverts' => $user->followed->reverse(),
-                'isCurrentUserPage' => false,
-            ]);
-        }
-
-        return view('adverts.index', [
-            'title' => "Annonces de " . $user->name,
-            'adverts' => $user->adverts->reverse(),
-            'isCurrentUserPage' => (Auth::id() === $user->id),
+        return view('users.index', [
+            'users' => $this->userRepository->all(),
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        return view('user.create');
+        return view('users.create');
     }
 
     /**
@@ -91,22 +68,24 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(User $user)
     {
-        return Response::json($user, 200);
+        return view('users.show', [
+            'user' => $user,
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(User $user)
     {
-        return view('user.edit', [
+        return view('users.edit', [
             'user' => $user,
         ]);
     }

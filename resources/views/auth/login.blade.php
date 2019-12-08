@@ -56,7 +56,7 @@
                     <div class="form-group">
                         <div class="btn-group" role="group">
                             <button type="submit" class="btn btn-primary">{{ __('auth.login') }}</button>
-                            <button type="button" class="btn btn-secondary" onclick="window.location.href = '{{ route('user.create') }}'">{{ __('auth.register') }}</button>
+                            <button type="button" class="btn btn-secondary" onclick="window.location.href = '{{ route('users.create') }}'">{{ __('auth.register') }}</button>
                         </div>
                         <button type="button" class="btn btn-dark" data-dismiss="modal" data-target="#login">Fermer</button>
                     </div>

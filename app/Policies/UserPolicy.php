@@ -56,7 +56,7 @@ class UserPolicy
         if (Auth::guest())
             return true;
 
-        if ($user->role === $this->roleRepository->getRoleByName('admin'))
+        if ($user->role->id === $this->roleRepository->getRoleByName('admin')->id)
             return true;
 
         return false;
@@ -74,7 +74,7 @@ class UserPolicy
         if ($user->id === $model->id)
             return true;
 
-        if ($user->role === $this->roleRepository->getRoleByName('admin'))
+        if ($user->role->id === $this->roleRepository->getRoleByName('admin')->id)
             return true;
 
         return false;
@@ -103,7 +103,7 @@ class UserPolicy
         if ($user->id === $model->id)
             return true;
 
-        if ($user->role === $this->roleRepository->getRoleByName('admin'))
+        if ($user->role->id === $this->roleRepository->getRoleByName('admin')->id)
             return true;
 
         return false;
@@ -115,10 +115,9 @@ class UserPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-//    public function restore(User $user, User $model)
     public function restore(User $user)
     {
-        if ($user->role === $this->roleRepository->getRoleByName('admin'))
+        if ($user->role->id === $this->roleRepository->getRoleByName('admin')->id)
             return true;
 
         return false;
@@ -130,10 +129,9 @@ class UserPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-//    public function forceDelete(User $user, User $model)
     public function forceDelete(User $user)
     {
-        if ($user->role === $this->roleRepository->getRoleByName('admin'))
+        if ($user->role->id === $this->roleRepository->getRoleByName('admin')->id)
             return true;
 
         return false;

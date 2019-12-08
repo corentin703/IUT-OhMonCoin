@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Advert;
+use App\Message;
 use App\Repositories\AdvertRepository;
 use App\Repositories\MessageRepository;
 use App\Repositories\UserRepository;
@@ -25,6 +26,8 @@ class MessageController extends Controller
 
     public function create(Request $request, Advert $advert)
     {
+        $this->authorize('create', Message::class);
+
         $data = [
             'advert' => $advert,
             'receiver' => $this->userRepository->find($request->input('receiver')),

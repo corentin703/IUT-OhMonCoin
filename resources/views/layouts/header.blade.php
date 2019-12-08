@@ -43,7 +43,7 @@
                     </li>
                     @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user.create') }}">{{ __('auth.register') }}</a>
+                            <a class="nav-link" href="{{ route('users.create') }}">{{ __('auth.register') }}</a>
                         </li>
                     @endif
                 @else
@@ -54,8 +54,8 @@
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
-                            <a class="dropdown-item" href="{{ route('users.adverts', Auth::id()) . '?followed=true' }}">Annonces suivies</a>
-                            <a class="dropdown-item" href="{{ route('users.adverts', Auth::id()) }}">Mes annonces</a>
+                            <a class="dropdown-item" href="{{ route('adverts.index') . '?followed=true' }}">Annonces suivies</a>
+                            <a class="dropdown-item" href="{{ route('adverts.index') . '?user=' . Auth::id() }}">Mes annonces</a>
 
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();

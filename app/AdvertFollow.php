@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class AdvertFollow extends Model
+class AdvertFollow extends Pivot
 {
     protected $fillable = [
         'advert',

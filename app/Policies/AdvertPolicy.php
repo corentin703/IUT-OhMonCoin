@@ -54,7 +54,7 @@ class AdvertPolicy
      */
     public function create(User $user)
     {
-        return $user->role != $this->roleRepository->getRoleByName('suspended');
+        return $user->role->id != $this->roleRepository->getRoleByName('suspended')->id;
     }
 
     /**
@@ -66,11 +66,11 @@ class AdvertPolicy
      */
     public function update(User $user, Advert $advert)
     {
-        if ($user->role != $this->roleRepository->getRoleByName('suspended') && $user->id === $advert->user_id)
+        if ($user->role->id != $this->roleRepository->getRoleByName('suspended')->id && $user->id === $advert->user->id)
             return true;
 
-        if ($user->role === $this->roleRepository->getRoleByName('admin'))
-            return true;
+//        if ($user->role->id === $this->roleRepository->getRoleByName('admin')->id)
+//            return true;
 
         return false;
     }
@@ -87,7 +87,7 @@ class AdvertPolicy
         if ($user->id === $advert->user_id)
             return true;
 
-        if ($user->role === $this->roleRepository->getRoleByName('admin'))
+        if ($user->role->id === $this->roleRepository->getRoleByName('admin')->id)
             return true;
 
         return false;
@@ -117,7 +117,7 @@ class AdvertPolicy
      */
     public function forceDelete(User $user, Advert $advert)
     {
-        if ($user->role === $this->roleRepository->getRoleByName('admin'))
+        if ($user->role->id === $this->roleRepository->getRoleByName('admin')->id)
             return true;
 
         return false;
@@ -132,7 +132,7 @@ class AdvertPolicy
      */
     public function follow(User $user, Advert $advert)
     {
-        if ($user->role != $this->roleRepository->getRoleByName('suspended'))
+        if ($user->role->id != $this->roleRepository->getRoleByName('suspended')->id)
             if ($user->id != $advert->user->id)
                 return true;
 

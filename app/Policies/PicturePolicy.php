@@ -55,9 +55,9 @@ class PicturePolicy
      */
     public function create(User $user, Advert $advert)
     {
-        if ($user->role != $this->roleRepository->getRoleByName('suspended'))
+        if ($user->role->id != $this->roleRepository->getRoleByName('suspended')->id)
         {
-            if ($advert->user->id === $user->id || $user->role === $this->roleRepository->getRoleByName('admin'))
+            if ($advert->user->id === $user->id || $user->role->id === $this->roleRepository->getRoleByName('admin')->id)
             {
                 return true;
             }
@@ -90,7 +90,7 @@ class PicturePolicy
         if ($user->id === $picture->advert->user->id)
             return true;
 
-        if ($user->role === $this->roleRepository->getRoleByName('admin'))
+        if ($user->role->id === $this->roleRepository->getRoleByName('admin')->id)
             return true;
 
         return false;
@@ -108,7 +108,7 @@ class PicturePolicy
         if ($user->id === $picture->advert->user_id)
             return true;
 
-        if ($user->role === $this->roleRepository->getRoleByName('admin'))
+        if ($user->role->id === $this->roleRepository->getRoleByName('admin')->id)
             return true;
 
         return false;
@@ -123,10 +123,10 @@ class PicturePolicy
      */
     public function forceDelete(User $user, Picture $picture)
     {
-        if ($user->id === $picture->advert->user_id)
+        if ($user->id === $picture->advert->user->id)
             return true;
 
-        if ($user->role === $this->roleRepository->getRoleByName('admin'))
+        if ($user->role->id === $this->roleRepository->getRoleByName('admin')->id)
             return true;
 
         return false;

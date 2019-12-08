@@ -34,7 +34,7 @@
                                             </div>
                                             <p>{{ $advert->content }}</p>
                                             <div class="btn-group interactable" role="group">
-                                                <form method="POST" action="{{ route('advert.restore', $advert->id) }}">
+                                                <form method="POST" action="{{ route('trashed.adverts.restore', $advert->id) }}">
                                                     @csrf
                                                     <button class="btn btn-danger">Restorer</button>
                                                 </form>

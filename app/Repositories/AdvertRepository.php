@@ -18,26 +18,41 @@ class AdvertRepository extends Repository
 {
     private $categoryRepository;
     private $pictureRepository;
+    private $userRepository;
 
-    public function __construct(Advert $model, CategoryRepository $categoryRepository, PictureRepository $pictureRepository)
+    public function __construct(Advert $model, CategoryRepository $categoryRepository, PictureRepository $pictureRepository, UserRepository $userRepository)
     {
         parent::__construct($model);
         $this->categoryRepository = $categoryRepository;
         $this->pictureRepository = $pictureRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function search($data = [])
     {
-        if (!isset($data['string']))
-            $data['string'] = "";
+        if (isset($data['followed']) && !isset($data['user']))
+            $adverts = Auth::user()->followed();
+        else
+            $adverts = $this->model::query();
+
+        if (isset($data['string']))
+        {
+            $adverts = $adverts->where('title', 'LIKE', '%' . $data['string'] . '%');
+        }
 
         if (isset($data['category']) && $data['category'] != 0)
         {
             $category = $this->categoryRepository->find($data['category']);
-            $adverts = $this->model::where('title', 'LIKE', '%' . $data['string'] . '%')->where('category_id', $category->id)->get();
+            $adverts = $adverts->where('category_id', $category->id);
         }
-        else
-            $adverts = $this->model::where('title', 'LIKE', '%' . $data['string'] . '%')->get();
+
+        if (isset($data['user']))
+        {
+            $user = $this->userRepository->find($data['user']);
+            $adverts = $adverts->where('user_id', $user->id);
+        }
+
+        $adverts = $adverts->get();
 
         if (count($adverts) == 0)
             return null;

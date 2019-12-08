@@ -36,18 +36,24 @@ class AdvertController extends Controller
      */
     public function index(Request $request)
     {
-        $string = $request->input('search');
+        $string = $request->input('string');
         $category = $request->input('category');
+        $followed = $request->input('followed');
+        $user = $request->input('user');
 
-        if ($category || $string)
+        if ($category || $string || $followed || $user)
         {
-            return view('adverts.search', [
+            return view('adverts.index', [
+                'title' => "Résultat de la recherche",
                 'adverts' => $this->advertRepository->search([
                     'category' => $category,
                     'string' => $string,
+                    'followed' => $followed,
+                    'user' => $user,
                 ]),
                 'stringSearched' => $string,
                 'categorySearched' => $category,
+                'isCurrentUserPage' => false,
             ]);
         }
 
