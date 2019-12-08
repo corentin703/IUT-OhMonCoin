@@ -28,7 +28,6 @@
                                             <input type="hidden" name="receiver" value="{{ $userId }}"/>
                                             <textarea id="messageContent" type="text" class="form-control" placeholder="Répondez lui donc..." name="content" required aria-label="messageContent" aria-describedby="messageContent"></textarea>
                                             <div class="input-group-append">
-                                                @method('PUT')
                                                 <button type="submit" class="btn btn-success">Envoyer</button>
                                             </div>
                                         </div>
