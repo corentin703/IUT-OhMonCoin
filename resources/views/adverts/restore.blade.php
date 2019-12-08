@@ -24,12 +24,10 @@
                                 <li class="list-group-item">
                                     <div class="row">
                                         <div class="@if ($advert->pictures) col-6 @else col-12 @endif">
-                                            <a href="{{ route('advert.show', $advert->id) }}" class="stretched-link"><h4>{{ $advert->title }}</h4></a>
+                                            <h4>{{ $advert->title }}</h4>
                                             <div class="btn-group interactable">
                                                 <h5>
-                                                    <a class="font-weight-bold" href="{{ route('advert.index.category', $advert->category) }}">Catégorie {{ $advert->category->name }} </a>
-                                                    par
-                                                    <a class="font-weight-bold" href="{{ route('advert.index.user', $advert->user) }}"> {{ $advert->user->name }}</a>
+                                                    Catégorie {{ $advert->category->name }} par {{ $advert->user->name }}
                                                 </h5>
                                             </div>
                                             <p>{{ $advert->content }}</p>
@@ -63,7 +61,7 @@
                                             </div>
                                             @else
                                                  <p class="text-center">
-                                                     Vous n'aviez pas mis d'image
+                                                     Aucune image avec cette annonce
                                                  </p>
                                             @endif
                                         </div>

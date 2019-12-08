@@ -31,7 +31,7 @@ class AdvertController extends Controller
     {
         $string = $request->input('string');
         $category = $request->input('category');
-        $followed = $request->input('followed');
+        $followed = ($request->input('followed') == "true");
         $user = $request->input('user');
 
         $result = $this->advertRepository->search([

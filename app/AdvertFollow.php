@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class AdvertFollow extends Pivot
 {
+    protected $table = "advert_follows";
+
     protected $fillable = [
         'advert',
         'user',

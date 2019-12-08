@@ -79,4 +79,9 @@ class User extends Authenticatable
 
         return collect($adverts);
     }
+
+    public function followPivot()
+    {
+        return $this->hasMany('App\AdvertFollow');
+    }
 }

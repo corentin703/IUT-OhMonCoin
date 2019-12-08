@@ -25,6 +25,6 @@ class AdvertFollowRepository extends Repository
 
     public function getByUserAndModel(User $user, Advert $advert)
     {
-        return $user->followed()->where('advert_id', $advert->id)->first();
+        return $user->followPivot()->where('advert_id', $advert->id)->first();
     }
 }

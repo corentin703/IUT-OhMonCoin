@@ -36,7 +36,8 @@ class UserObserver
      */
     public function deleted(User $user)
     {
-        //
+        foreach ($user->adverts as $advert)
+            $advert->delete();
     }
 
     /**

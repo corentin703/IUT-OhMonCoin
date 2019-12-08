@@ -30,7 +30,7 @@ class AdvertRepository extends Repository
 
     public function search($data = [])
     {
-        if (isset($data['followed']) && !isset($data['user']))
+        if (isset($data['followed']) && $data['followed'] === true && !isset($data['user']))
             $adverts = Auth::user()->followed();
         else
             $adverts = $this->model::query();
@@ -53,9 +53,6 @@ class AdvertRepository extends Repository
         }
 
         $adverts = $adverts->get();
-
-        if (count($adverts) == 0)
-            return null;
 
         return $adverts;
     }

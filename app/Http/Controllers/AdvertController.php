@@ -38,13 +38,21 @@ class AdvertController extends Controller
     {
         $string = $request->input('string');
         $category = $request->input('category');
-        $followed = $request->input('followed');
+        $followed = ($request->input('followed') == "true");
         $user = $request->input('user');
 
         if ($category || $string || $followed || $user)
         {
+            if ($followed)
+                $title = "Les annonces que vous suivez";
+            elseif ($user == Auth::id())
+                $title = "Les annonces que vous avez posté";
+            else
+                $title = "Résultat de la recherche";
+
+
             return view('adverts.index', [
-                'title' => "Résultat de la recherche",
+                'title' => $title,
                 'adverts' => $this->advertRepository->search([
                     'category' => $category,
                     'string' => $string,
@@ -53,7 +61,8 @@ class AdvertController extends Controller
                 ]),
                 'stringSearched' => $string,
                 'categorySearched' => $category,
-                'isCurrentUserPage' => false,
+                'searched' => true,
+                'isCurrentUserPage' => ($user == Auth::id()),
             ]);
         }
 

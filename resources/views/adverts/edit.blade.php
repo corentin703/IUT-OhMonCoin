@@ -25,7 +25,7 @@
                                 Catégorie :
                                 <select id="category" class="form-control @error('category') is-invalid @enderror" name="category" required autocomplete="off">
                                     @foreach($categories->all() as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" @if($advert->category->id === $category->id) selected @endif>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('category')

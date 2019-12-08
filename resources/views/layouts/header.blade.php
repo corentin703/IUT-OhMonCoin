@@ -70,6 +70,14 @@
                             <div class="dropdown-divider"></div>
 
                             <a class="dropdown-item" href="{{ route('users.edit', Auth::id()) }}">Paramètres utilisateur</a>
+
+                            @if (Auth::user()->role->name === "admin")
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item" href="{{ route('categories.index') }}">Liste des catégories</a>
+                                <a class="dropdown-item" href="{{ route('users.index') }}">Liste des utilisateurs</a>
+                                <a class="dropdown-item" href="{{ route('roles.index') }}">Gestion des types utilisateurs</a>
+                            @endif
                         </div>
                     </li>
                 @endguest

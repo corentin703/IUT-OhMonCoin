@@ -14,7 +14,7 @@
                     <option value="{{ $category->id }}" @if(isset($categorySearched) && $categorySearched == $category->id) selected @endif>{{ $category->name }}</option>
                 @endforeach
             </select>
-            <input id="search" type="text" class="form-control col-5" placeholder="Une annonce..." name="search" min="3" value="@isset($stringSearched) {{ $stringSearched }} @endisset" required aria-label="search" aria-describedby="search">
+            <input id="search" type="text" class="form-control col-5" placeholder="Une annonce..." name="string" min="3" value="@isset($stringSearched) {{ $stringSearched }} @endisset" required aria-label="search" aria-describedby="search">
             <div class="input-group-append">
                 <button class="btn btn-light" type="submit">Go !</button>
             </div>

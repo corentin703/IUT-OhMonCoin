@@ -8,7 +8,11 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header">{{ $advert->title }}</div>
+                    <div class="card-header">
+                        {{ $advert->title }} par
+                        <a class="font-weight-bold" href="{{ route('adverts.index') . '?user=' . $advert->user->id }}"> {{ $advert->user->name }}</a> dans la catégorie
+                        <a class="font-weight-bold" href="{{ route('categories.show', $advert->category->id) }}">{{ $advert->category->name }} </a>
+                    </div>
 
                     <div class="card-body">
                         {{ $advert->content }}
