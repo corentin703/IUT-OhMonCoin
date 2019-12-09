@@ -46,6 +46,17 @@ class CategoryPolicy
     }
 
     /**
+     * Determine whether the user can view the trashed advert.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function viewTrashed(User $user)
+    {
+        return $user->role->id === $this->roleRepository->getRoleByName('admin')->id;
+    }
+
+    /**
      * Determine whether the user can create categories.
      *
      * @param  \App\User  $user

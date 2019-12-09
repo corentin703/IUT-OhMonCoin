@@ -18,7 +18,7 @@
 
                     <ul class="list-group list-group-flush">
                         @if (count($categories) === 0)
-                            Vous n'avez pas supprimé d'annonces.
+                            Vous n'avez pas supprimé de catégories.
                         @else
                             @foreach($categories as $category)
                                 <li class="list-group-item">

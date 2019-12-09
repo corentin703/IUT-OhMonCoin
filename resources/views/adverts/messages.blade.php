@@ -68,4 +68,12 @@
             </div>
         </div>
     @endif
+
+    <script>
+        setTimeout(function () {
+            window.location.reload();
+        }, 60000)
+    </script>
 @endcan
+
+

@@ -81,6 +81,8 @@ class AdvertController extends Controller
      */
     public function indexTrashed()
     {
+        $this->authorize('viewTrashed', Advert::class);
+
         return view('adverts.restore', [
             'adverts' => $this->advertRepository->getTrashedByUser(Auth::user())->reverse(),
         ]);

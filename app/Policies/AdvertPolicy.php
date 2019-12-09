@@ -6,6 +6,7 @@ use App\Advert;
 use App\Repositories\RoleRepository;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class AdvertPolicy
 {
@@ -44,6 +45,17 @@ class AdvertPolicy
     public function view(User $user = null)
     {
         return true;
+    }
+
+    /**
+     * Determine whether the user can view the trashed advert.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function viewTrashed(User $user)
+    {
+        return Auth::check();
     }
 
     /**

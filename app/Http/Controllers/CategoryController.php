@@ -47,6 +47,8 @@ class CategoryController extends Controller
      */
     public function indexTrashed()
     {
+        $this->authorize('viewTrashed', Category::class);
+
         return view('categories.restore', [
             'categories' => $this->categoryRepository->getTrashed(),
         ]);
