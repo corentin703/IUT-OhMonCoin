@@ -41,7 +41,7 @@ class AdvertController extends Controller
         $followed = ($request->input('followed') == "true");
         $user = $request->input('user');
 
-        if ($category || $string || $followed || $user)
+        if ($category != null || $string != null || $followed != null || $user != null)
         {
             if ($followed)
                 $title = "Les annonces que vous suivez";
@@ -50,6 +50,8 @@ class AdvertController extends Controller
             else
                 $title = "Résultat de la recherche";
 
+            if($category == 0)
+                $category = null;
 
             return view('adverts.index', [
                 'title' => $title,

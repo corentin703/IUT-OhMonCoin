@@ -40,15 +40,37 @@ class AdvertRepository extends Repository
             $adverts = $adverts->where('title', 'LIKE', '%' . $data['string'] . '%');
         }
 
-        if (isset($data['category']) && $data['category'] != 0)
+        if (isset($data['category']))
         {
-            $category = $this->categoryRepository->find($data['category']);
+            if (is_numeric($data['category']))
+                $category = $this->categoryRepository->find($data['category']);
+            else
+            {
+                $category = $this->categoryRepository->getCategoryByName($data['category']);
+
+                if ($category === null)
+                    return [];
+
+                $category = $category->first();
+            }
+
             $adverts = $adverts->where('category_id', $category->id);
         }
 
         if (isset($data['user']))
         {
-            $user = $this->userRepository->find($data['user']);
+            if (is_numeric($data['user']))
+                $user = $this->userRepository->find($data['category']);
+            else
+            {
+                $user = $this->userRepository->getUserByName($data['user']);
+
+                if ($user === null)
+                    return [];
+
+                $user = $user->first();
+            }
+
             $adverts = $adverts->where('user_id', $user->id);
         }
 
