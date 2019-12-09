@@ -14,14 +14,14 @@ class CategoryRepository extends Repository
         parent::__construct($model);
     }
 
-    public function getCategoryByName(string $name) : ?Category
+    public function getCategoryByName(string $name)
     {
-        $id = DB::table('categories')->select('id')->where('name', $name)->first();
+        $res =  $this->model::where('name', 'LIKE', '%' . $name . '%')->get();
 
-        if ($id)
-            return $this->model->find($id->id);
-        else
+        if (count($res) === 0)
             return null;
+
+        return $res;
     }
 
     public function getTrashed()

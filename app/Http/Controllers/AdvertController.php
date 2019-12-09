@@ -41,15 +41,17 @@ class AdvertController extends Controller
         $followed = ($request->input('followed') == "true");
         $user = $request->input('user');
 
-        if ($category || $string || $followed || $user)
+        if ($category != null || $string != null || $followed != null || $user != null)
         {
             if ($followed)
                 $title = "Les annonces que vous suivez";
-            elseif ($user == Auth::id())
+            elseif (Auth::check() && $user == Auth::id())
                 $title = "Les annonces que vous avez posté";
             else
                 $title = "Résultat de la recherche";
 
+            if (is_numeric($category) && $category == 0)
+                $category = null;
 
             return view('adverts.index', [
                 'title' => $title,
@@ -62,7 +64,7 @@ class AdvertController extends Controller
                 'stringSearched' => $string,
                 'categorySearched' => $category,
                 'searched' => true,
-                'isCurrentUserPage' => ($user == Auth::id()),
+                'isCurrentUserPage' => (Auth::check() && $user == Auth::id()),
             ]);
         }
 

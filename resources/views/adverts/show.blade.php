@@ -23,8 +23,8 @@
                             <div id="carousel-{{ $advert->id }}" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
                                     @foreach($advert->pictures as $key => $picture)
-                                        <div class="carousel-item @if($key === 0) active @endif">
-                                            <img src="{{ asset('public/' . $picture->link) }}" class="d-block w-100" alt="...">
+                                        <div class="carousel-item @if($key === 0) active @endif" style="height: 35vh; width: 21vw;">
+                                            <img src="{{ asset('public/' . $picture->link) }}" alt="..." style="display: block; max-height: 35vh; max-width: 21vw;">
                                         </div>
                                     @endforeach
                                 </div>

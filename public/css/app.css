@@ -11116,14 +11116,14 @@ li,
 
 .carousel-item {
   height: 35vh;
-  width: 65vh;
+  width: 40vh;
 }
 
 .carousel-item img {
   display: block;
   margin: auto;
   max-height: 35vh;
-  max-width: 65vh;
+  max-width: 40vh;
 }
 
 .dock_group {
