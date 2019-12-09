@@ -26,7 +26,7 @@
                                     <div class="btn-group" role="group">
                                         <form method="POST" action="{{ route('trashed.categories.restore', $category->id) }}">
                                             @csrf
-                                            <button class="btn btn-danger">Restorer</button>
+                                            <button class="btn btn-danger">Restaurer</button>
                                         </form>
                                     </div>
                                 </li>

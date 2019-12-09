@@ -59,7 +59,7 @@ class PictureController extends Controller
     {
         $this->authorize('delete', $picture);
 
-        $this->pictureRepository->delete($picture);
+        $this->pictureRepository->forceDelete($picture);
 
         return Response::json(['success' => true], 200);
     }

@@ -58,6 +58,6 @@ class PictureObserver
      */
     public function forceDeleted(Picture $picture)
     {
-        unlink(public_path("/images/" . $picture->link));
+        unlink(public_path("/" . $picture->link));
     }
 }

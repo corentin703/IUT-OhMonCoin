@@ -36,6 +36,11 @@ abstract class Repository
         return $this->getModelInstance($element)->delete();
     }
 
+    public function forceDelete($element)
+    {
+        return $this->getModelInstance($element)->forceDelete();
+    }
+
     public function restore($element)
     {
         return $this->getModelInstance($element)->restore();

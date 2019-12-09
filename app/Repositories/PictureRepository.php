@@ -31,7 +31,7 @@ class PictureRepository extends Repository
         {
             $pictureData = [
                 'advert' => $data['advert'],
-                'link' => $picture->storeAs('picture', $this->getLastId() . $picture->getExtension(), 'public'),
+                'link' => $picture->storeAs('pictures', $this->getLastId() . $picture->getExtension(), 'public'),
             ];
 
             $pictures[] = $this->model->create($pictureData);
