@@ -112,7 +112,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $this->userRepository->delete($user);
+        $this->userRepository->forceDelete($user);
 
         return Redirect::to('/');
     }

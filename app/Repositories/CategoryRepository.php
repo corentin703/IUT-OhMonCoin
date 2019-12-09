@@ -4,6 +4,8 @@
 namespace App\Repositories;
 
 use App\Category;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class CategoryRepository extends Repository
 {
@@ -12,14 +14,14 @@ class CategoryRepository extends Repository
         parent::__construct($model);
     }
 
-    public function getCategoryByName(string $name)
+    public function getCategoryByName(string $name) : ?Category
     {
-        $res =  $this->model::where('name', 'LIKE', '%' . $name . '%')->get();
+        $id = DB::table('categories')->select('id')->where('name', $name)->first();
 
-        if (count($res) === 0)
+        if ($id)
+            return $this->model->find($id->id);
+        else
             return null;
-
-        return $res;
     }
 
     public function getTrashed()

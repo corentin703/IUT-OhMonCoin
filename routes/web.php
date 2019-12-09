@@ -16,6 +16,7 @@ Auth::routes();
 // Adverts
 
 Route::post('/adverts/{advert}/follow', 'AdvertController@follow')->name('adverts.follow');
+Route::delete('/adverts/{advert}/destroy', 'AdvertController@forceDelete')->name('adverts.forceDestroy');
 Route::resource('/adverts', 'AdvertController')
     ->except(['create']);
 

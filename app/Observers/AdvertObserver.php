@@ -28,6 +28,17 @@ class AdvertObserver
         //
     }
 
+    public function deleting(Advert $advert)
+    {
+        if ($advert->isForceDeleting())
+        {
+            foreach ($advert->pictures()->withTrashed()->get() as $picture)
+                $picture->forceDelete();
+            foreach ($advert->followPivot as $followPivot)
+                $followPivot->forceDelete();
+        }
+    }
+
     /**
      * Handle the advert "deleted" event.
      *
@@ -51,9 +62,7 @@ class AdvertObserver
     public function restored(Advert $advert)
     {
         foreach ($advert->pictures()->withTrashed()->get() as $picture)
-        {
             $picture->restore();
-        }
     }
 
     /**
@@ -64,9 +73,6 @@ class AdvertObserver
      */
     public function forceDeleted(Advert $advert)
     {
-        foreach ($advert->pictures as $picture)
-        {
-            $picture->forceDelete();
-        }
+        //
     }
 }

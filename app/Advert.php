@@ -71,17 +71,21 @@ class Advert extends Model
 
     public function getPicturesAttribute()
     {
-        $pictures = $this->pictures()->get();
+        $pictures = $this->pictures();
 
         if ($this->trashed())
             $pictures = $this->pictures()->withTrashed();
 
-        return $pictures;
+        return $pictures->get();
     }
 
     public function follower()
     {
         return $this->belongsToMany('App\User', 'advert_follows')->using( 'App\AdvertFollow');
-//        return $this->hasMany('App\AdvertFollow');
+    }
+
+    public function followPivot()
+    {
+        return $this->hasMany('App\AdvertFollow');
     }
 }

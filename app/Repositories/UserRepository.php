@@ -39,7 +39,7 @@ class UserRepository extends Repository
         return $user;
     }
 
-    public function update(array $data, $element)
+    public function update(array $data, $element): ?Model
     {
         $user = $this->getModelInstance($element);
 
@@ -49,15 +49,5 @@ class UserRepository extends Repository
         $user->update($data);
 
         return $user;
-    }
-
-    public function getUserByName(string $name)
-    {
-        $res = $this->model::where('name', 'LIKE', '%' . $name . '%')->get();
-
-        if (count($res) === 0)
-            return null;
-
-        return $res;
     }
 }

@@ -37,6 +37,13 @@
                                                     <button class="btn btn-danger">Restaurer</button>
                                                 </form>
                                             </div>
+                                            <div class="btn-group interactable" role="group">
+                                                <form method="POST" action="{{ route('adverts.forceDestroy', $advert->id) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-dark">Supprimer définitivement</button>
+                                                </form>
+                                            </div>
                                         </div>
                                         <div class="col-6">
                                             @if ($advert->pictures()->withTrashed()->get()->count())

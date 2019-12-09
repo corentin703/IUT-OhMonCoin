@@ -41,7 +41,7 @@ class AdvertController extends Controller
         $followed = ($request->input('followed') == "true");
         $user = $request->input('user');
 
-        if ($category != null || $string != null || $followed != null || $user != null)
+        if ($category || $string || $followed || $user)
         {
             if ($followed)
                 $title = "Les annonces que vous suivez";
@@ -50,8 +50,6 @@ class AdvertController extends Controller
             else
                 $title = "Résultat de la recherche";
 
-            if($category == 0)
-                $category = null;
 
             return view('adverts.index', [
                 'title' => $title,
@@ -196,6 +194,19 @@ class AdvertController extends Controller
     public function destroy(Advert $advert)
     {
         $this->advertRepository->delete($advert);
+
+        return Redirect::route('home');
+    }
+
+    /**
+     * Remove permanently the specified resource from storage.
+     *
+     * @param \App\Advert $advert
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function forceDelete($advert)
+    {
+        $this->advertRepository->forceDelete($this->advertRepository->findTrashed($advert));
 
         return Redirect::route('home');
     }

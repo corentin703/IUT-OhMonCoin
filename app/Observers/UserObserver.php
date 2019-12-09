@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserObserver
 {
@@ -28,6 +29,21 @@ class UserObserver
         //
     }
 
+    public function deleting(User $user)
+    {
+        if ($user->isForceDeleting())
+        {
+            if ($user->id === Auth::id())
+                Auth::logout();
+
+            foreach ($user->adverts()->withTrashed()->get() as $advert)
+                $advert->forceDelete();
+
+            foreach ($user->followPivot as $followPivot)
+                $followPivot->forceDelete();
+        }
+    }
+
     /**
      * Handle the user "deleted" event.
      *
@@ -48,17 +64,19 @@ class UserObserver
      */
     public function restored(User $user)
     {
-        //
+        foreach ($user->adverts()->withTrashed()->get() as $advert)
+            $advert->restore();
     }
 
     /**
-     * Handle the user "force deleted" event.
+     * Handle the advert "force deleted" event.
      *
-     * @param  \App\User  $user
+     * @param  \App\User  $advert
      * @return void
      */
     public function forceDeleted(User $user)
     {
         //
     }
+
 }
