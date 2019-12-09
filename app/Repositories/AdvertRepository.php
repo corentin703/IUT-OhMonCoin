@@ -62,7 +62,7 @@ class AdvertRepository extends Repository
         if (isset($data['user']))
         {
             if (is_numeric($data['user']))
-                $user = $this->userRepository->find($data['category']);
+                $user = $this->userRepository->find($data['user']);
             else
             {
                 $user = $this->userRepository->getUserByName($data['user']);
