@@ -30,8 +30,6 @@ class AdvertRepository extends Repository
 
     public function search($data = [])
     {
-//        dd($data);
-
         if (isset($data['followed']) && $data['followed'] === true && !isset($data['user']))
             $adverts = Auth::user()->followed();
         else
@@ -106,11 +104,15 @@ class AdvertRepository extends Repository
 
     public function update(array $data, $advert): ?Model
     {
+        DB::beginTransaction();
+
         $data['date'] = Carbon::today();
         $data['user'] = Auth::user();
         $data['category'] = $this->categoryRepository->find($data['category']);
 
         $advert->update($data);
+
+        DB::commit();
 
         return $advert;
     }

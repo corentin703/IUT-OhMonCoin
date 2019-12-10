@@ -32,10 +32,10 @@ class AdvertObserver
     {
         if ($advert->isForceDeleting())
         {
-            foreach ($advert->pictures()->withTrashed()->get() as $picture)
-                $picture->forceDelete();
             foreach ($advert->followPivot as $followPivot)
                 $followPivot->forceDelete();
+            foreach ($advert->pictures()->withTrashed()->get() as $picture)
+                $picture->forceDelete();
         }
     }
 

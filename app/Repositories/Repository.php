@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Advert;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 abstract class Repository
 {
@@ -23,27 +24,58 @@ abstract class Repository
 
     public function create(array $data)
     {
-        return $this->model->create($data);
+        // Transaction manage ensures that Observers actions are well executed in the same query that model creation
+        DB::beginTransaction();
+
+        $element = $this->model->create($data);
+
+        DB::commit();
+
+        return $element;
     }
 
     public function update(array $data, $element)
     {
-        return $this->getModelInstance($element)->update($data);
+        DB::beginTransaction();
+
+        $element = $this->getModelInstance($element)->update($data);
+
+        DB::commit();
+
+        return $element;
     }
 
     public function delete($element)
     {
-        return $this->getModelInstance($element)->delete();
+        DB::beginTransaction();
+
+        $element = $this->getModelInstance($element)->delete();
+
+        DB::commit();
+
+        return $element;
     }
 
     public function forceDelete($element)
     {
-        return $this->getModelInstance($element)->forceDelete();
+        DB::beginTransaction();
+
+        $element = $this->getModelInstance($element)->forceDelete();
+
+        DB::commit();
+
+        return $element;
     }
 
     public function restore($element)
     {
-        return $this->getModelInstance($element)->restore();
+        DB::beginTransaction();
+
+        $element = $this->getModelInstance($element)->restore();
+
+        DB::commit();
+
+        return $element;
     }
 
     public function find($element) : ?Model

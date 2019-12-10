@@ -8,6 +8,7 @@ use App\Rules\OldPasswordRule;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,10 +25,11 @@ class UserRepository extends Repository
 
     public function create(array $data): ?Model
     {
+        DB::beginTransaction();
+
         $user = new $this->model();
         $user->fill($data);
         $user->password = Hash::make($data['password']);
-//        $user->role_id = $this->roleRepository->getRoleByName('classic')->id;
 
         if ($this->all()->count() === 0)
             $user->role = $this->roleRepository->getRoleByName('admin');
@@ -36,17 +38,23 @@ class UserRepository extends Repository
 
         $user->save();
 
+        DB::commit();
+
         return $user;
     }
 
     public function update(array $data, $element): ?Model
     {
+        DB::beginTransaction();
+
         $user = $this->getModelInstance($element);
 
         if ($data['password'])
             $user->password = Hash::make($data['password']);
 
         $user->update($data);
+
+        DB::commit();
 
         return $user;
     }
