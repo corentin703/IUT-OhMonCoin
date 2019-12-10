@@ -61,11 +61,11 @@
                                     </div>
 
                                     <div class="col">
-                                        Mot de passe : <input class="form-control" name="password" value="" type="password" autocomplete="new-password"/>
+                                        Mot de passe : <input class="form-control" name="password" value="" minlength="8" type="password" autocomplete="new-password"/>
                                     </div>
 
                                     <div class="col">
-                                        Confirmation : <input class="form-control" name="password_confirmation" value="" type="password" autocomplete="new-password"/>
+                                        Confirmation : <input class="form-control" name="password_confirmation" value="" minlength="8" type="password" autocomplete="new-password"/>
                                     </div>
                                 </div>
                                 @error('phone')

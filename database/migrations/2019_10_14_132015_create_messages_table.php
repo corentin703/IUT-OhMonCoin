@@ -22,7 +22,6 @@ class CreateMessagesTable extends Migration
             $table->unsignedBigInteger('receiver_id');
             $table->foreign('receiver_id')->references('id')->on('users');
             $table->string('content');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

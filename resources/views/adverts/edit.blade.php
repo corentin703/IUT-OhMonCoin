@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                Titre : <input class="form-control @error('title') is-invalid @enderror" name="title" value="{{ $advert->title }}"/>
+                                Titre : <input class="form-control @error('title') is-invalid @enderror" name="title" value="{{ $advert->title }}" required minlength="8"/>
                                 @error('title')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -35,7 +35,7 @@
                                 @enderror
                             </li>
                             <li class="list-group-item">
-                                Contenu : <textarea class="form-control @error('content') is-invalid @enderror" name="content">{{ $advert->content }}</textarea>
+                                Contenu : <textarea class="form-control @error('content') is-invalid @enderror" name="content" required minlength="20">{{ $advert->content }}</textarea>
                                 @error('content')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

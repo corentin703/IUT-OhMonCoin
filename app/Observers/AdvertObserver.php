@@ -34,6 +34,10 @@ class AdvertObserver
         {
             foreach ($advert->followPivot as $followPivot)
                 $followPivot->forceDelete();
+				
+            foreach ($advert->messages()->get() as $message)
+                $message->forceDelete();
+				
             foreach ($advert->pictures()->withTrashed()->get() as $picture)
                 $picture->forceDelete();
         }

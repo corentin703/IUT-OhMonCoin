@@ -77,20 +77,27 @@ class CategoryController extends Controller
     {
         $this->authorize('view-any', Advert::class);
 
-        $string = $request->input('search');
+        $string = $request->input('string');
+        $followed = ($request->input('followed') == "true");
+        $user = $request->input('user');
 
-        if ($string)
+        if ($string != null || $followed != null || $user != null)
         {
-            return view('adverts.search', [
-                'adverts' => $this->advertRepository->search($request->input('string'), $category),
-                'stringSearched' => $string,
-                'categorySearched' => $category,
+            $adverts = $this->advertRepository->search([
+                'currentCategory' => $category->id,
+                'string' => $string,
+                'followed' => $followed,
+                'user' => $user,
             ]);
         }
+        else
+            $adverts = $category->adverts->reverse();
 
         return view('adverts.index', [
             'title' => "Annonces de catégorie " . $category->name,
-            'adverts' => $category->adverts->reverse(),
+            'adverts' => $adverts,
+            'stringSearched' => $string,
+            'categorySearched' => $category,
             'isCurrentUserPage' => false,
         ]);
     }

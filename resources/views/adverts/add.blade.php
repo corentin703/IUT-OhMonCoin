@@ -23,7 +23,7 @@
                         <label for="title" class="col-md-2 col-form-label text-md-right">Titre</label>
 
                         <div class="col-md-9">
-                            <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="off" autofocus>
+                            <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="off" minlength="8" autofocus>
 
                             @error('title')
                             <span class="invalid-feedback" role="alert">
@@ -55,7 +55,7 @@
                         <label for="content" class="col-md-2 col-form-label text-md-right">Contenu</label>
 
                         <div class="col-md-9">
-                            <textarea id="content" class="form-control @error('content') is-invalid @enderror" name="content" required autocomplete="off"></textarea>
+                            <textarea id="content" class="form-control @error('content') is-invalid @enderror" name="content" required minlength="20" autocomplete="off"></textarea>
 
                             @error('content')
                             <span class="invalid-feedback" role="alert">

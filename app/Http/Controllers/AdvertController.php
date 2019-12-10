@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Advert;
 use App\Category;
+use App\Http\Requests\AdvertCreateRequest;
 use App\Http\Requests\AdvertUpdateRequest;
 use App\Repositories\AdvertFollowRepository;
 use App\Repositories\AdvertRepository;
@@ -56,7 +57,7 @@ class AdvertController extends Controller
             return view('adverts.index', [
                 'title' => $title,
                 'adverts' => $this->advertRepository->search([
-                    'category' => $category,
+                    'currentCategory' => $category,
                     'string' => $string,
                     'followed' => $followed,
                     'user' => $user,
@@ -91,10 +92,10 @@ class AdvertController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param AdvertCreateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(AdvertCreateRequest $request)
     {
         $data = $request->all();
 
