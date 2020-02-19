@@ -25,7 +25,34 @@ La plateforme que j'ai développé permet en plus de :
     - Restaurer des annonces supprimées par erreur
     - De suivre des annonces
     - De gérer plusieurs types utilisateur (administrateurs, standards et suspendus)
-    
+
+### Accueil
 <div>
-    [Accueil]()
+    <img src="https://raw.githubusercontent.com/corentin703/OhMonCoin/master/ReadMe/Accueil.png" alt="Accueil" width=50%"/>
 </div>
+                                                                                                                         
+### Page des catégories
+<div>
+    <img src="https://raw.githubusercontent.com/corentin703/OhMonCoin/master/ReadMe/Catégorie.png" alt="Accueil" width=50%"/>
+</div>
+
+### Détail d'une annonce et messagerie
+<div>
+    <img src="https://raw.githubusercontent.com/corentin703/OhMonCoin/master/ReadMe/Messagerie.png" alt="Accueil" width=50%"/>
+</div>
+          
+### Édition d'annonce
+<div>
+    <img src="https://raw.githubusercontent.com/corentin703/OhMonCoin/master/ReadMe/Edition Annonce.png" alt="Accueil" width=50%"/>
+</div>
+                                                                                                                         
+### Espace personnel
+<div>
+    <img src="https://raw.githubusercontent.com/corentin703/OhMonCoin/master/ReadMe/Espace Perso.png" alt="Accueil" width=50%"/>
+</div>                                                                                                                    
+                                                                                                                    
+### Édition des roles
+<div>
+    <img src="https://raw.githubusercontent.com/corentin703/OhMonCoin/master/ReadMe/Roles.png" alt="Accueil" width=50%"/>
+</div>
+
