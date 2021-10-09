@@ -15,7 +15,7 @@ class CreatePicturesTable extends Migration
     {
         Schema::create('pictures', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('link')->unique();
+            $table->string('link');
             $table->unsignedBigInteger('advert_id');
             $table->foreign('advert_id')->references('id')->on('adverts');
             $table->softDeletes();

@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  ohmoncoin_web:
+    build: ./src
+    ports:
+      - 80:80
+    environment:
+      APP_NAME: Oh mon coin
+      APP_ENV: local
+      APP_KEY: base64:hFYSaVDV8knPFTPcJtJBUmyzQHR4JQRJ9bwLH/PyRfg=
+      APP_DEBUG: true
+      APP_URL: http://localhost
+    
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ohmoncoin
+      DB_USERNAME: root
+      DB_PASSWORD: mdp1234
+      
+    links:
+      - ohmoncoin_db:db
+    
+  ohmoncoin_db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mdp1234
+      MYSQL_DATABASE: ohmoncoin
+    volumes:
+      - ./database_persist:/var/lib/mysql
+      
+  ohmoncoin_phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    links:
+      - ohmoncoin_db:db

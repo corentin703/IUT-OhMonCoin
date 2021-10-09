@@ -1,5 +1,5 @@
 # OhMonCoin
-### Projet de Web1 de 2ème année de DUT
+### Projet du module Web 1 de 2ème année de DUT
 
 L'objectf était de développer un clone du site Leboncoin avec certaines fonctionnalités imposées parmis lesquelles :
 - Un système de gestion utilisateur qui permet 
@@ -25,6 +25,37 @@ La plateforme que j'ai développé permet en plus de :
     - Restaurer des annonces supprimées par erreur
     - De suivre des annonces
     - De gérer plusieurs types utilisateur (administrateurs, standards et suspendus)
+
+
+### Mise en place
+Sur une machine avec Docker, et son utilitaire *docker-compose* d'installés, tapez 
+```
+docker-compose up -d
+```
+
+Cela démarrera trois conteneurs contenant respectivement un serveur apache avec php, une instance de MariaDB et une instance de phpMyAdmin.
+
+Lors de la première utilisation, vous devez initialiser la base de données (attention, il se peut que quelques secondes soient nécessaire le temps que la MariaDB se mette en place).
+Pour ce faire, obtenez l'identifiant du conteneur utilisant l'image *ohmoncoin_ohmoncoin_web* grâce à la commande ci-dessous.
+```
+docker ps
+```
+Ensuite, exécutez la commande ci-dessous pour effectuer la migration :
+```
+docker exec -i id_conteneur php artisan migrate
+```
+Ceci fait, OhMonCoin est prêt.
+
+Le site est mappé sur le port 80 par défaut : tapez donc localhost dans la barre d'adresse pour utiliser le site.
+
+Par défaut, la base de données utilise un volume situé dans le dossier *database_persist* situé à la racine du dépôt pour la persistance.
+
+
+Pour mettre le déploiement hors service, tapez :
+```
+docker-compose down
+```
+
 
 ### Accueil
 <div>
@@ -55,4 +86,3 @@ La plateforme que j'ai développé permet en plus de :
 <div>
     <img src="https://raw.githubusercontent.com/corentin703/OhMonCoin/master/ReadMe/Roles.png" alt="Accueil" width=50%"/>
 </div>
-
